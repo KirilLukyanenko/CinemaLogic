@@ -30,10 +30,16 @@ City and movie matching ignore case and Polish diacritics (`krakow` matches `Kra
 
 ## Where the data comes from
 
-| Order | Source | Covers | How |
+Two kinds of source run together:
+
+| Kind | Source | Covers | Status |
 |---|---|---|---|
-| 1 | [kino.coigdzie.pl](https://kino.coigdzie.pl/miasto/warszawa) | every cinema in the city: chains, arthouse, cultural centres | one server-rendered HTML page per city and day, parsed with `node-html-parser` (`src/providers/coigdzie.ts`) |
-| 2 | Cinema City API | Cinema City only | JSON service used by cinema-city.pl; used only when the portal fails or returns nothing |
+| Portal | [kino.coigdzie.pl](https://kino.coigdzie.pl/miasto/warszawa) | every cinema in the city, but lags behind the cinemas' own schedules (often by days) | ✅ |
+| Direct | Cinema City API | all Cinema City cinemas | ✅ |
+| Direct | Multikino API (`src/providers/multikino.ts`) | cinemas with `multikinoId` in the city list | parser ready; Warsaw ids not filled in yet |
+| Direct | Helios API (`src/providers/helios.ts`) | cinemas with `heliosId` in the city list | parser ready; Warsaw id not filled in yet |
+
+For every cinema a direct source returns showtimes for, its data replaces the portal's. Every other cinema keeps the portal's data, and if a direct source fails, the portal's data for its cinemas stays. If the portal is down, the direct sources still work.
 
 The portal writes versions into the title ("Avengers 3D (dubbing)"). Those markers move into `format` ("3D, dubbing"), so `getMovies` groups all versions of a film together. Times without an online booking link point `bookingUrl` to the cinema's page on the portal.
 

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { CinemaCityProvider, CoigdzieProvider, createCinemaLogic, formatFromAttributes, splitTitle, WARSZAWA } from "../src";
+import { CinemaCityProvider, CoigdzieProvider, createCinemaLogic, formatFromAttributes, HeliosProvider, MultikinoProvider, splitTitle, WARSZAWA } from "../src";
+import { heliosScreenings, multikinoFilms } from "./fixtures/chains";
 import type { FetchLike } from "../src";
 import { withZoneOffset } from "../src/util";
 import { cinemasResponse, eventsByCinema } from "./fixtures/cinemaCity";
@@ -25,7 +26,7 @@ function fakeFetch(opts: { calls?: string[]; coigdzieDown?: boolean } = {}): Fet
 }
 
 const logic = (fetchFn: FetchLike, onError?: (e: unknown, ctx: { provider: string }) => void) =>
-  createCinemaLogic({ providers: [new CoigdzieProvider(fetchFn, NOW), new CinemaCityProvider(fetchFn, NOW)], onError });
+  createCinemaLogic({ providers: [new CoigdzieProvider(fetchFn, NOW)], siteProviders: [], onError });
 
 describe("getShowtimes from kino.coigdzie.pl", () => {
   it("returns every cinema's showtimes, small ones included, in the agreed shape", async () => {
@@ -66,10 +67,60 @@ describe("getShowtimes from kino.coigdzie.pl", () => {
   });
 });
 
-describe("fallback to Cinema City", () => {
-  it("uses the Cinema City API when the portal is down", async () => {
+describe("chain APIs", () => {
+  const chainsFetch = (calls: string[] = []): FetchLike => {
+    const base = fakeFetch({ calls });
+    return async (url, init) => {
+      calls.push(url);
+      if (url.endsWith("/auth/token")) return new Response("{}", { status: 200, headers: { "Set-Cookie": "session=abc; Path=/; HttpOnly" } });
+      if (url.includes("multikino.pl/api/microservice/showings/")) {
+        return new Headers(init?.headers).get("Cookie") === "session=abc" ? json(multikinoFilms) : json({}, 401);
+      }
+      if (url.startsWith("https://api.helios.pl/")) return json(heliosScreenings);
+      return base(url, init);
+    };
+  };
+  const reduta = WARSZAWA.find((v) => v.name === "Multikino Reduta")!;
+  const blueCity = WARSZAWA.find((v) => v.name === "Helios Blue City")!;
+  const chains = (fetchFn: FetchLike) => [
+    new CinemaCityProvider(fetchFn, NOW),
+    new MultikinoProvider(fetchFn, [{ ...reduta, multikinoId: "0099" }]),
+    new HeliosProvider(fetchFn, NOW, [{ ...blueCity, heliosId: "7" }]),
+  ];
+
+  it("read Multikino with a session cookie and Helios from one schedule request", async () => {
+    const calls: string[] = [];
+    const fetchFn = chainsFetch(calls);
+    const l = createCinemaLogic({ providers: [new CoigdzieProvider(fetchFn, NOW)], siteProviders: chains(fetchFn) });
+    const lalka = await l.getShowtimes({ city: "Warszawa", date: "2026-10-11", movie: "lalka" });
+    expect(lalka).toEqual([
+      { cinema: "Multikino Reduta", city: "Warszawa", movie: "Lalka", start: "2026-10-11T11:00:00+02:00", bookingUrl: "https://www.multikino.pl/rezerwacja-biletow/podsumowanie/0099/HO00002549/1" },
+      { cinema: "Helios Blue City", city: "Warszawa", movie: "Lalka", start: "2026-10-11T18:30:00+02:00", bookingUrl: "https://bilety.helios.pl/screen/s-1?cinemaId=c-1" },
+      { cinema: "Multikino Reduta", city: "Warszawa", movie: "Lalka", start: "2026-10-11T20:10:00+02:00", bookingUrl: "https://www.multikino.pl/rezerwacja-biletow/podsumowanie/0099/HO00002549/2" },
+    ]);
+    const toy = await l.getShowtimes({ city: "Warszawa", date: "2026-10-11", movie: "toy story" });
+    expect(toy[0]).toMatchObject({ movie: "Toy Story 5", format: "dubbing", bookingUrl: "https://www.multikino.pl/filmy/toy-story-5" });
+    expect(calls.filter((u) => u.startsWith("https://api.helios.pl/"))).toHaveLength(1);
+  });
+
+  it("replace the portal's data for the chain cinemas they cover", async () => {
+    const fetchFn = chainsFetch();
+    const l = createCinemaLogic({ providers: [new CoigdzieProvider(fetchFn, NOW)], siteProviders: chains(fetchFn) });
+    const showtimes = await l.getShowtimes({ city: "Warszawa", date: "2026-10-06" });
+    // Portal had Reduta at 17:15; Multikino's own API has nothing that day, so the portal stays.
+    expect(showtimes.filter((s) => s.cinema === "Multikino Reduta").map((s) => s.start)).toEqual(["2026-10-06T17:15:00+02:00"]);
+    // Cinema City's API covers Arkadia and Bemowo; the portal's other Cinema City cinemas stay.
+    expect([...new Set(showtimes.map((s) => s.cinema))].sort()).toEqual([
+      "Cinema City Arkadia", "Cinema City Bemowo", "Cinema City Białołęka", "Cinema City Sadyba",
+      "Kino Muranów", "Kino Nowe Na Mapie", "Kinokawiarnia Stacja Falenica", "Multikino Reduta",
+    ]);
+  });
+
+  it("keep the chains working when the portal is down", async () => {
     const errors: string[] = [];
-    const showtimes = await logic(fakeFetch({ coigdzieDown: true }), (_, ctx) => errors.push(ctx.provider)).getShowtimes({ city: "Warszawa", date: "2026-10-06" });
+    const fetchFn = fakeFetch({ coigdzieDown: true });
+    const l = createCinemaLogic({ providers: [new CoigdzieProvider(fetchFn, NOW)], siteProviders: [new CinemaCityProvider(fetchFn, NOW)], onError: (_, c) => errors.push(c.provider) });
+    const showtimes = await l.getShowtimes({ city: "Warszawa", date: "2026-10-06" });
     expect(errors).toEqual(["coigdzie"]);
     expect(showtimes.map((s) => [s.cinema, s.movie, s.format])).toEqual([
       ["Cinema City Arkadia", "Robot", "2D, dubbing"],
@@ -115,6 +166,7 @@ describe("cinema website parsers", () => {
   it("pairs the portal's spellings of small cinemas with the Warsaw list", async () => {
     const names = ["U–jazdowski kino", "Kino Domu Sztuki", "KinoGram", "Kinomuzeum w Muzeum Sztuki Nowoczesnej", "Kino Kępa - Prom Kultury Saska Kępa"];
     const l = createCinemaLogic({
+      siteProviders: [],
       providers: [site(names.map((cinema) => ({ cinema, movie: "Film", start: "2026-10-06T18:00:00+02:00" })))],
     });
     const cinemas = (await l.getShowtimes({ city: "Warszawa", date: "2026-10-06" })).map((s) => s.cinema);
@@ -136,7 +188,8 @@ describe("getCinemas", () => {
   });
 
   it("does not pair a venue on a partial word (ADA vs Arkadia)", async () => {
-    const cinemas = await logic(fakeFetch({ coigdzieDown: true })).getCinemas("Warszawa");
+    const fetchFn = fakeFetch({ coigdzieDown: true });
+    const cinemas = await createCinemaLogic({ providers: [new CoigdzieProvider(fetchFn, NOW), new CinemaCityProvider(fetchFn, NOW)], siteProviders: [] }).getCinemas("Warszawa");
     expect(cinemas.find((c) => c.name === "Cinema City Arkadia")?.url).toBe("https://www.cinema-city.pl/kina/arkadia/1074");
     expect(cinemas.find((c) => c.name === "ADA Kino Studyjne")?.url).toBeUndefined();
   });

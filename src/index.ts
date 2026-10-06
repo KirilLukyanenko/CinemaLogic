@@ -1,32 +1,42 @@
 import { canonicalCity, cityList } from "./cities";
 import { CinemaCityProvider } from "./providers/cinemaCity";
 import { CoigdzieProvider } from "./providers/coigdzie";
+import { HeliosProvider } from "./providers/helios";
+import { MultikinoProvider } from "./providers/multikino";
 import type { Cinema, CinemaProvider, FetchLike, Movie, Showtime, ShowtimeQuery, SourceShowtime, Venue } from "./types";
 import { containsWords, isIsoDate, normalize, slugify } from "./util";
 
 export * from "./types";
 export { CinemaCityProvider, formatFromAttributes } from "./providers/cinemaCity";
 export { CoigdzieProvider, parseDayPage, splitTitle } from "./providers/coigdzie";
+export { HeliosProvider, parseHeliosScreenings } from "./providers/helios";
+export { MultikinoProvider, parseMultikinoFilms } from "./providers/multikino";
 export { WARSZAWA } from "./cities/warszawa";
 
 export type CinemaLogicOptions = {
   /**
-   * Schedule sources in order of preference. The first one that returns
+   * City-wide portals in order of preference. The first one that returns
    * showtimes wins; the rest are fallbacks for when it fails or comes back empty.
    */
   providers?: CinemaProvider[];
   /**
-   * Parsers for individual cinemas' own websites. They run alongside `providers`,
-   * and for every cinema they return showtimes for, their data replaces the portal's.
+   * Direct sources: a chain's API or a cinema's own website. They run alongside
+   * `providers`, and for every cinema they return showtimes for, their data
+   * replaces the portal's (portals lag behind the cinemas' own schedules).
    */
   siteProviders?: CinemaProvider[];
   /** Called when a source fails; the next source is tried. */
   onError?: (error: unknown, context: { provider: string }) => void;
 };
 
-/** kino.coigdzie.pl (every cinema in the city), then the Cinema City API as a fallback. */
+/** kino.coigdzie.pl: every cinema in the city. */
 export function defaultProviders(fetchFn?: FetchLike): CinemaProvider[] {
-  return [new CoigdzieProvider(fetchFn), new CinemaCityProvider(fetchFn)];
+  return [new CoigdzieProvider(fetchFn)];
+}
+
+/** The chains' own APIs: fresher than the portal for their cinemas. */
+export function defaultSiteProviders(fetchFn?: FetchLike): CinemaProvider[] {
+  return [new CinemaCityProvider(fetchFn), new MultikinoProvider(fetchFn), new HeliosProvider(fetchFn)];
 }
 
 const CHAIN_WORDS: Record<NonNullable<Venue["chain"]>, string> = {
@@ -44,7 +54,7 @@ function findVenue(venues: Venue[], sourceName: string): Venue | undefined {
 
 export function createCinemaLogic(options: CinemaLogicOptions = {}) {
   const providers = options.providers ?? defaultProviders();
-  const siteProviders = options.siteProviders ?? [];
+  const siteProviders = options.siteProviders ?? defaultSiteProviders();
   const onError = options.onError ?? (() => {});
 
   /**

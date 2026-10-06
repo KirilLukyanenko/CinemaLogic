@@ -46,6 +46,10 @@ export type Venue = {
   address?: string;
   district?: string;
   url?: string;
+  /** Multikino's 4-digit cinema id ("0004"), for reading its schedule directly. */
+  multikinoId?: string;
+  /** Helios CMS cinema id, for reading its schedule directly. */
+  heliosId?: string;
 };
 
 /** A cinema as a source names it, before it is paired with a venue. */
