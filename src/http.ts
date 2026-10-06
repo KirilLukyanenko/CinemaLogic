@@ -2,20 +2,29 @@ import type { FetchLike } from "./types";
 
 const UA = "Mozilla/5.0 (compatible; CinemaLogic/0.1; +low-volume showtime lookup)";
 
-/** GET a JSON document with a timeout. Throws on non-2xx or network errors. */
-export async function getJson<T>(fetchFn: FetchLike, url: string, timeoutMs = 15_000): Promise<T> {
+async function get(fetchFn: FetchLike, url: string, accept: string, timeoutMs: number): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const res = await fetchFn(url, {
-      headers: { Accept: "application/json", "User-Agent": UA },
+      headers: { Accept: accept, "Accept-Language": "pl-PL,pl;q=0.9", "User-Agent": UA },
       signal: controller.signal,
     });
     if (!res.ok) throw new Error(`GET ${url} -> HTTP ${res.status}`);
-    return (await res.json()) as T;
+    return res;
   } finally {
     clearTimeout(timer);
   }
+}
+
+/** GET a JSON document with a timeout. Throws on non-2xx or network errors. */
+export async function getJson<T>(fetchFn: FetchLike, url: string, timeoutMs = 15_000): Promise<T> {
+  return (await (await get(fetchFn, url, "application/json", timeoutMs)).json()) as T;
+}
+
+/** GET an HTML page with a timeout. Throws on non-2xx or network errors. */
+export async function getText(fetchFn: FetchLike, url: string, timeoutMs = 15_000): Promise<string> {
+  return (await get(fetchFn, url, "text/html,application/xhtml+xml", timeoutMs)).text();
 }
 
 /** Runs `fn` over `items` with at most `limit` calls in flight. */

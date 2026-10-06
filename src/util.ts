@@ -55,3 +55,13 @@ export function containsWords(text: string, fragment: string): boolean {
   const words = (t: string) => ` ${normalize(t).replace(/[^a-z0-9]+/g, " ").trim()} `;
   return words(text).includes(words(fragment));
 }
+
+/** "Kino Muranów" -> "kino-muranow". */
+export function slugify(text: string): string {
+  return normalize(text).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+/** Today's date (YYYY-MM-DD) in Warsaw. */
+export function todayInWarsaw(now = new Date()): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Warsaw" }).format(now);
+}

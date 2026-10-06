@@ -2,7 +2,7 @@
 
 TypeScript logic for the mobile app: given a **city** and a **day**, find every movie playing, and every cinema and time where you can see it.
 
-It uses only `fetch` and `Intl`: no `fs`, `puppeteer` or `child_process`. It runs in an Expo API route (Cloudflare), in Node, or in a Firebase function.
+It uses only `fetch`, `Intl` and a pure-JS HTML parser: no `fs`, `puppeteer` or `child_process`. It runs in an Expo API route (Cloudflare), in Node, or in a Firebase function.
 
 ## API
 
@@ -28,21 +28,20 @@ type Showtime = {
 
 City and movie matching ignore case and Polish diacritics (`krakow` matches `Kraków`). If one cinema fails, the others are still returned; pass `onError` to `createCinemaLogic` to log failures.
 
-## Cinemas and sources
+## Where the data comes from
 
-`getCinemas(city)` merges two things:
+| Order | Source | Covers | How |
+|---|---|---|---|
+| 1 | [kino.coigdzie.pl](https://kino.coigdzie.pl/miasto/warszawa) | every cinema in the city: chains, arthouse, cultural centres | one server-rendered HTML page per city and day, parsed with `node-html-parser` (`src/providers/coigdzie.ts`) |
+| 2 | Cinema City API | Cinema City only | JSON service used by cinema-city.pl; used only when the portal fails or returns nothing |
 
-1. **Provider results**: cinemas whose schedule we can read (`hasShowtimes: true`).
-2. **The city's static list** (`src/cities/`): every cinema in the city, small and arthouse ones included. Cinemas no provider covers yet are still returned, with `hasShowtimes: false`.
+The portal writes versions into the title ("Avengers 3D (dubbing)"). Those markers move into `format` ("3D, dubbing"), so `getMovies` groups all versions of a film together. Times without an online booking link point `bookingUrl` to the cinema's page on the portal.
 
-Warsaw (`src/cities/warszawa.ts`) lists 29 cinemas: 6 Cinema City, 5 Multikino, 1 Helios and 17 independent venues (Kinoteka, Muranów, Luna, Atlantic, Kultura, Iluzjon, Elektronik, Wisła, Praha, Świt, KinoGram and others).
+Sources name cinemas differently ("Cinema City Warszawa Galeria Północna", "Kino Luna w Warszawie"). `src/cities/warszawa.ts` lists every Warsaw cinema with its address and district, plus the words that identify it, so every source maps onto the same names. Cinemas the portal knows but the list misses are still returned under the portal's name.
 
-| Provider | Status | How |
-|---|---|---|
-| Cinema City | ✅ | JSON "quickbook" service used by cinema-city.pl |
-| Multikino, Helios, independent cinemas | not yet | HTML parsing, one `CinemaProvider` per site or one for an aggregator |
+On 6 October 2026 the portal had 27 Warsaw cinema entries, and all of them map onto the list. KinoGram, U-jazdowski, ADA and Dom Sztuki are on the list but not on the portal that day, so they have no showtimes yet.
 
-To add a source, implement `CinemaProvider` in `src/providers/` and add it to `defaultProviders()`. Its cinemas are paired with the static list by the venue's `match` words. Check each site's terms of use first.
+To add a source, implement `CinemaProvider` (`getShowtimes(city, date)`, `listCinemas(city)`) in `src/providers/` and add it to `defaultProviders()`. Check each site's terms of use first.
 
 ## Use in the app
 
@@ -53,7 +52,7 @@ To add a source, implement `CinemaProvider` in `src/providers/` and add it to `d
 
 ```sh
 npm install
-npm test               # unit tests with recorded-shape fixtures (no network)
+npm test               # unit tests with fixtures in the sites' markup (no network)
 npm run typecheck
 npm run demo -- Warszawa 2026-10-06   # live lookup against the real sites
 ```
