@@ -155,7 +155,30 @@ export function createCinemaLogic(options: CinemaLogicOptions = {}) {
     return [...movies.values()].sort((a, b) => a.title.localeCompare(b.title, "pl"));
   }
 
-  return { getCinemas, getShowtimes, getMovies };
+  /**
+   * What every source returns for the city and date, before merging: for checking
+   * from the app's server that each source is reachable and parsed.
+   */
+  async function getSourceReport(opts: ShowtimeQuery): Promise<SourceReport[]> {
+    const city = canonicalCity(opts.city);
+    const run = async (kind: SourceReport["kind"], p: CinemaProvider): Promise<SourceReport> => {
+      const started = Date.now();
+      try {
+        const showtimes = await p.getShowtimes(city, opts.date);
+        const cinemas = [...new Set(showtimes.map((s) => s.cinema))].sort((a, b) => a.localeCompare(b, "pl"));
+        return { source: p.name, kind, ok: true, ms: Date.now() - started, movies: new Set(showtimes.map((s) => s.movie)).size, showtimes: showtimes.length, cinemas };
+      } catch (error) {
+        return { source: p.name, kind, ok: false, ms: Date.now() - started, error: error instanceof Error ? error.message : String(error) };
+      }
+    };
+    // One source at a time, to stay polite to the sites.
+    const report: SourceReport[] = [];
+    for (const p of siteProviders) report.push(await run("direct", p));
+    for (const p of providers) report.push(await run("portal", p));
+    return report;
+  }
+
+  return { getCinemas, getShowtimes, getMovies, getSourceReport };
 }
 
 function toShowtime(s: SourceShowtime): Showtime {
@@ -164,6 +187,17 @@ function toShowtime(s: SourceShowtime): Showtime {
   if (s.bookingUrl) showtime.bookingUrl = s.bookingUrl;
   return showtime;
 }
+
+export type SourceReport = {
+  source: string;
+  kind: "direct" | "portal";
+  ok: boolean;
+  ms: number;
+  movies?: number;
+  showtimes?: number;
+  cinemas?: string[];
+  error?: string;
+};
 
 let shared: ReturnType<typeof createCinemaLogic> | undefined;
 const instance = () => (shared ??= createCinemaLogic());
@@ -179,4 +213,8 @@ export function getMovies(opts: ShowtimeQuery): Promise<Movie[]> {
 
 export function getCinemas(city: string): Promise<Cinema[]> {
   return instance().getCinemas(city);
+}
+
+export function getSourceReport(opts: ShowtimeQuery): Promise<SourceReport[]> {
+  return instance().getSourceReport(opts);
 }

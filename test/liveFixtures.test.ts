@@ -228,6 +228,19 @@ describe("KinoGram (real responses)", () => {
     }
   });
 
+  it("reports what each source returned, and why one failed", async () => {
+    const fetchFn = liveFetch();
+    const broken = { name: "broken", listCinemas: async () => [], getShowtimes: async () => Promise.reject(new Error("HTTP 403")) };
+    const l = createCinemaLogic({ providers: [new CoigdzieProvider(fetchFn, NOW)], siteProviders: [new KinogramProvider(fetchFn, NOW), broken] });
+    const report = await l.getSourceReport({ city: "Warszawa", date: "2026-10-11" });
+    expect(report.map(({ ms, cinemas, ...r }) => r)).toEqual([
+      { source: "kinogram", kind: "direct", ok: true, movies: 3, showtimes: 10 },
+      { source: "broken", kind: "direct", ok: false, error: "HTTP 403" },
+      { source: "coigdzie", kind: "portal", ok: true, movies: 3, showtimes: 31 }, // trimmed page
+    ]);
+    expect(report[0]?.cinemas).toEqual(["KinoGram"]);
+  });
+
   it("only answers for Warsaw", async () => {
     const calls: string[] = [];
     expect(await new KinogramProvider(liveFetch(calls), NOW).getShowtimes("Kraków", "2026-10-11")).toEqual([]);
