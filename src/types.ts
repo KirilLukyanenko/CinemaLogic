@@ -11,10 +11,26 @@ export type Showtime = {
 export type Cinema = {
   /** Globally unique: "<provider>:<provider cinema id>". */
   id: string;
-  provider: string;
+  /** Provider that reads its schedule; undefined when none does yet. */
+  provider?: string;
   name: string;
   city: string;
   address?: string;
+  district?: string;
+  url?: string;
+  /** False when the cinema is known but no provider can read its schedule yet. */
+  hasShowtimes: boolean;
+};
+
+/** A cinema from a city's static list (see src/cities). */
+export type Venue = {
+  name: string;
+  /** Provider name of the chain that runs it, e.g. "cinema-city". */
+  chain?: string;
+  /** Lowercase, diacritics-free fragment of the name used to pair it with provider results. */
+  match: string;
+  address: string;
+  district?: string;
   url?: string;
 };
 

@@ -49,3 +49,9 @@ function zoneOffsetMinutes(utcMs: number, timeZone: string): number {
   const wall = Date.UTC(get("year"), get("month") - 1, get("day"), get("hour"), get("minute"), get("second"));
   return Math.round((wall - utcMs) / 60_000);
 }
+
+/** True when `fragment` appears in `text` as whole words, e.g. "ada" in "ADA Kino" but not in "Arkadia". */
+export function containsWords(text: string, fragment: string): boolean {
+  const words = (t: string) => ` ${normalize(t).replace(/[^a-z0-9]+/g, " ").trim()} `;
+  return words(text).includes(words(fragment));
+}

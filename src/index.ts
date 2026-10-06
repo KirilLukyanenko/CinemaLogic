@@ -1,10 +1,12 @@
 import { mapLimit } from "./http";
 import { CinemaCityProvider } from "./providers/cinemaCity";
 import type { Cinema, CinemaProvider, FetchLike, Movie, ProviderShowtime, Showtime, ShowtimeQuery } from "./types";
-import { isIsoDate, normalize } from "./util";
+import { canonicalCity, cityList } from "./cities";
+import { containsWords, isIsoDate, normalize } from "./util";
 
 export * from "./types";
 export { CinemaCityProvider, formatFromAttributes } from "./providers/cinemaCity";
+export { WARSZAWA } from "./cities/warszawa";
 
 export type CinemaLogicOptions = {
   /** Schedule sources to query. Defaults to every built-in provider. */
@@ -24,29 +26,57 @@ export function createCinemaLogic(options: CinemaLogicOptions = {}) {
   const concurrency = options.concurrency ?? 4;
   const onError = options.onError ?? (() => {});
 
-  /** Every cinema in the city, across all providers. */
+  /**
+   * Every cinema in the city: what the providers return, merged with the city's
+   * static list so cinemas without a schedule source still appear (hasShowtimes: false).
+   */
   async function getCinemas(city: string): Promise<Cinema[]> {
+    const name = canonicalCity(city);
     const lists = await Promise.all(
       providers.map(async (p) => {
         try {
-          return await p.listCinemas(city);
+          return await p.listCinemas(name);
         } catch (error) {
           onError(error, { provider: p.name });
           return [];
         }
       }),
     );
-    return lists.flat().sort((a, b) => a.name.localeCompare(b.name, "pl"));
+    const fromProviders = lists.flat();
+    const unmatched = new Set(fromProviders);
+    const merged: Cinema[] = [];
+
+    for (const venue of cityList(city)?.venues ?? []) {
+      const found = fromProviders.find(
+        (c) => unmatched.has(c) && (!venue.chain || c.provider === venue.chain) && containsWords(c.name, venue.match),
+      );
+      if (found) {
+        unmatched.delete(found);
+        merged.push({ ...found, address: found.address ?? venue.address, district: venue.district, url: found.url ?? venue.url });
+      } else {
+        merged.push({
+          id: `venue:${normalize(name)}:${venue.match.replace(/\s+/g, "-")}`,
+          name: venue.name,
+          city: name,
+          address: venue.address,
+          district: venue.district,
+          url: venue.url,
+          hasShowtimes: false,
+        });
+      }
+    }
+    merged.push(...unmatched);
+    return merged.sort((a, b) => a.name.localeCompare(b.name, "pl"));
   }
 
   async function collect(opts: ShowtimeQuery): Promise<ProviderShowtime[]> {
     if (!isIsoDate(opts.date)) throw new Error(`date must be YYYY-MM-DD, got "${opts.date}"`);
-    const cinemas = await getCinemas(opts.city);
+    const cinemas = (await getCinemas(opts.city)).filter((c) => c.hasShowtimes && c.provider);
     const byProvider = new Map(providers.map((p) => [p.name, p]));
     const wanted = opts.movie ? normalize(opts.movie) : undefined;
 
     const perCinema = await mapLimit(cinemas, concurrency, async (cinema) => {
-      const provider = byProvider.get(cinema.provider)!;
+      const provider = byProvider.get(cinema.provider!)!;
       try {
         return await provider.getShowtimes(cinema, opts.date);
       } catch (error) {

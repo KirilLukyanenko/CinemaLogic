@@ -119,6 +119,7 @@ export class CinemaCityProvider implements CinemaProvider {
         city: c.addressInfo?.city?.trim() ?? "",
         address: c.addressInfo?.address1,
         url: c.link,
+        hasShowtimes: true,
       }),
     );
     this.cinemas = { at: nowMs, list };

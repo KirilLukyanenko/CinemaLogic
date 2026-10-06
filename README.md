@@ -28,14 +28,21 @@ type Showtime = {
 
 City and movie matching ignore case and Polish diacritics (`krakow` matches `Kraków`). If one cinema fails, the others are still returned; pass `onError` to `createCinemaLogic` to log failures.
 
-## Sources
+## Cinemas and sources
+
+`getCinemas(city)` merges two things:
+
+1. **Provider results**: cinemas whose schedule we can read (`hasShowtimes: true`).
+2. **The city's static list** (`src/cities/`): every cinema in the city, small and arthouse ones included. Cinemas no provider covers yet are still returned, with `hasShowtimes: false`.
+
+Warsaw (`src/cities/warszawa.ts`) lists 29 cinemas: 6 Cinema City, 5 Multikino, 1 Helios and 17 independent venues (Kinoteka, Muranów, Luna, Atlantic, Kultura, Iluzjon, Elektronik, Wisła, Praha, Świt, KinoGram and others).
 
 | Provider | Status | How |
 |---|---|---|
 | Cinema City | ✅ | JSON "quickbook" service used by cinema-city.pl |
-| Multikino, Helios, independent cinemas | not yet | implement `CinemaProvider` in `src/providers/` and add it to `defaultProviders()` |
+| Multikino, Helios, independent cinemas | not yet | HTML parsing, one `CinemaProvider` per site or one for an aggregator |
 
-Check each chain's terms of use before adding it.
+To add a source, implement `CinemaProvider` in `src/providers/` and add it to `defaultProviders()`. Its cinemas are paired with the static list by the venue's `match` words. Check each site's terms of use first.
 
 ## Use in the app
 

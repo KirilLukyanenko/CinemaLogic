@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CinemaCityProvider, createCinemaLogic, formatFromAttributes } from "../src";
+import { CinemaCityProvider, createCinemaLogic, formatFromAttributes, WARSZAWA } from "../src";
 import type { FetchLike } from "../src";
 import { withZoneOffset } from "../src/util";
 import { cinemasResponse, eventsByCinema } from "./fixtures/cinemaCity";
@@ -24,6 +24,32 @@ describe("getCinemas", () => {
     const cinemas = await logic(fakeFetch()).getCinemas("krakow");
     expect(cinemas.map((c) => c.name)).toEqual(["Cinema City Kraków Bonarka"]);
     expect(cinemas[0]).toMatchObject({ id: "cinema-city:1088", city: "Kraków" });
+  });
+});
+
+describe("getCinemas for Warsaw", () => {
+  it("lists every Warsaw cinema, small ones included, and accepts the English name", async () => {
+    const cinemas = await logic(fakeFetch()).getCinemas("Warsaw");
+    expect(cinemas).toHaveLength(WARSZAWA.length);
+    expect(cinemas.find((c) => c.name === "Kino Muranów")).toMatchObject({ city: "Warszawa", hasShowtimes: false, district: "Śródmieście" });
+  });
+
+  it("merges chain cinemas from the provider with the static list", async () => {
+    const cinemas = await logic(fakeFetch()).getCinemas("Warszawa");
+    expect(cinemas.find((c) => c.name === "Cinema City Arkadia")).toMatchObject({ id: "cinema-city:1074", provider: "cinema-city", hasShowtimes: true, district: "Wola" });
+    expect(cinemas.filter((c) => c.hasShowtimes).map((c) => c.name)).toEqual(["Cinema City Arkadia", "Cinema City Bemowo"]);
+  });
+
+  it("does not pair a venue on a partial word (ADA vs Arkadia)", async () => {
+    const cinemas = await logic(fakeFetch()).getCinemas("Warszawa");
+    expect(cinemas.find((c) => c.name === "ADA Kino Studyjne")?.hasShowtimes).toBe(false);
+  });
+
+  it("still lists the city when the provider is down", async () => {
+    const down: FetchLike = async () => new Response("", { status: 503 });
+    const cinemas = await logic(down).getCinemas("Warszawa");
+    expect(cinemas).toHaveLength(WARSZAWA.length);
+    expect(cinemas.every((c) => !c.hasShowtimes)).toBe(true);
   });
 });
 
