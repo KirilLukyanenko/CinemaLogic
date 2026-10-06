@@ -27,7 +27,10 @@ export type CinemaLogicOptions = {
    * replaces the portal's (portals lag behind the cinemas' own schedules).
    */
   siteProviders?: CinemaProvider[];
-  /** Called when a source fails; the next source is tried. */
+  /**
+   * Called when a source fails; the other sources' data is still returned.
+   * Defaults to console.warn, so a failing source shows up in the server log.
+   */
   onError?: (error: unknown, context: { provider: string }) => void;
 };
 
@@ -57,7 +60,8 @@ function findVenue(venues: Venue[], sourceName: string): Venue | undefined {
 export function createCinemaLogic(options: CinemaLogicOptions = {}) {
   const providers = options.providers ?? defaultProviders();
   const siteProviders = options.siteProviders ?? defaultSiteProviders();
-  const onError = options.onError ?? (() => {});
+  const onError =
+    options.onError ?? ((error: unknown, ctx: { provider: string }) => console.warn(`[cinema-logic] ${ctx.provider} failed:`, error instanceof Error ? error.message : error));
 
   /**
    * Every cinema in the city: the city's static list (src/cities), plus any cinema

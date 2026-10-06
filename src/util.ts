@@ -61,7 +61,17 @@ export function slugify(text: string): string {
   return normalize(text).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
+/**
+ * The local date (YYYY-MM-DD) of an instant in `timeZone`. Built from formatToParts:
+ * what format() returns for a locale differs between runtimes (Node, Hermes, workers).
+ */
+export function localDate(instant: Date, timeZone = "Europe/Warsaw"): string {
+  const parts = new Intl.DateTimeFormat("en-US", { timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(instant);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  return `${get("year")}-${get("month").padStart(2, "0")}-${get("day").padStart(2, "0")}`;
+}
+
 /** Today's date (YYYY-MM-DD) in Warsaw. */
 export function todayInWarsaw(now = new Date()): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Warsaw" }).format(now);
+  return localDate(now);
 }

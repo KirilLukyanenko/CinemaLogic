@@ -1,6 +1,6 @@
 import { getJson, mapLimit } from "../http";
 import type { CinemaProvider, FetchLike, SourceCinema, SourceShowtime } from "../types";
-import { normalize, withZoneOffset } from "../util";
+import { localDate, normalize, withZoneOffset } from "../util";
 import { splitTitle } from "./coigdzie";
 
 /**
@@ -57,7 +57,7 @@ function kinogramFormat(s: KinogramScreening, fromTitle: string | undefined): st
 
 /** Local Warsaw date ("2026-10-11") of an ISO time with offset. */
 function warsawDate(iso: string): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Warsaw" }).format(new Date(iso));
+  return localDate(new Date(iso));
 }
 
 export function parseKinogramScreenings(

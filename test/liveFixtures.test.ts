@@ -215,6 +215,19 @@ describe("KinoGram (real responses)", () => {
     ]);
   });
 
+  it("does not depend on how the runtime formats en-CA dates", async () => {
+    // Some runtimes format en-CA as "10/11/2026"; the day filter must not rely on format().
+    const proto = Intl.DateTimeFormat.prototype;
+    const original = Object.getOwnPropertyDescriptor(proto, "format")!;
+    Object.defineProperty(proto, "format", { configurable: true, get: () => () => "10/11/2026" });
+    try {
+      const showtimes = await new KinogramProvider(liveFetch(), NOW).getShowtimes("Warszawa", "2026-10-11");
+      expect(showtimes.filter((s) => s.movie === "Digger").map((s) => s.start)).toEqual(["2026-10-11T16:15:00+02:00", "2026-10-11T19:45:00+02:00"]);
+    } finally {
+      Object.defineProperty(proto, "format", original);
+    }
+  });
+
   it("only answers for Warsaw", async () => {
     const calls: string[] = [];
     expect(await new KinogramProvider(liveFetch(calls), NOW).getShowtimes("Kraków", "2026-10-11")).toEqual([]);
