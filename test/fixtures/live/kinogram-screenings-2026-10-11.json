@@ -1,0 +1,450 @@
+[
+ {
+  "id": "901b2e15-4323-4e1f-bc8d-03aa88a637a6",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "64d8f742-3f54-477a-98d6-80082384c982",
+  "moviePrintId": "469ff962-483d-420e-97dd-49bd737c7884",
+  "movieExternalId": "7812",
+  "moviePrintExternalId": "1755",
+  "screeningTimeFrom": "2026-10-11T13:30:00+02:00",
+  "screeningTimeTo": "2026-10-11T15:30:00+02:00",
+  "screeningDuration": null,
+  "audience": 0,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T14:00:00+02:00",
+  "reservationTimeTo": "2026-10-11T14:00:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 48,
+  "movieId": "246706c7-1788-4e89-aa5d-aac31c3cf5f1",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "EN",
+  "subtitles": "PL",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [],
+  "screenFeatures": []
+ },
+ {
+  "id": "b4e6afd6-df3b-4242-9e09-8d5c4f8a5aac",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "64d8f742-3f54-477a-98d6-80082384c982",
+  "moviePrintId": "4edf2434-1068-4b54-b4a4-aaea2e04d080",
+  "movieExternalId": "7823",
+  "moviePrintExternalId": "1797",
+  "screeningTimeFrom": "2026-10-11T16:00:00+02:00",
+  "screeningTimeTo": "2026-10-11T19:01:00+02:00",
+  "screeningDuration": null,
+  "audience": 18,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T16:30:00+02:00",
+  "reservationTimeTo": "2026-10-11T16:30:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 48,
+  "movieId": "d076c6bb-6baf-4f83-a62c-34a322ddb863",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "PL",
+  "subtitles": "EN",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [
+   {
+    "symbol": "KINO",
+    "description": "Tagi filmów ",
+    "tags": [
+     {
+      "orderNo": 2,
+      "symbol": "PREMIERE",
+      "description": "PREMIERE"
+     }
+    ]
+   }
+  ],
+  "screenFeatures": []
+ },
+ {
+  "id": "cd3c0cc3-6d9c-4abc-bb7b-51fcddc54f5f",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "64d8f742-3f54-477a-98d6-80082384c982",
+  "moviePrintId": "4edf2434-1068-4b54-b4a4-aaea2e04d080",
+  "movieExternalId": "7823",
+  "moviePrintExternalId": "1797",
+  "screeningTimeFrom": "2026-10-11T19:30:00+02:00",
+  "screeningTimeTo": "2026-10-11T22:31:00+02:00",
+  "screeningDuration": null,
+  "audience": 10,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T20:00:00+02:00",
+  "reservationTimeTo": "2026-10-11T20:00:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 48,
+  "movieId": "d076c6bb-6baf-4f83-a62c-34a322ddb863",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "PL",
+  "subtitles": "EN",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [
+   {
+    "symbol": "KINO",
+    "description": "Tagi filmów ",
+    "tags": [
+     {
+      "orderNo": 2,
+      "symbol": "PREMIERE",
+      "description": "PREMIERE"
+     }
+    ]
+   }
+  ],
+  "screenFeatures": []
+ },
+ {
+  "id": "2a4123cb-67cb-4dc6-9d81-fc90d7b513a1",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "b0e729b5-8ff9-431c-8c61-5e898026120a",
+  "moviePrintId": "4edf2434-1068-4b54-b4a4-aaea2e04d080",
+  "movieExternalId": "7823",
+  "moviePrintExternalId": "1797",
+  "screeningTimeFrom": "2026-10-11T13:00:00+02:00",
+  "screeningTimeTo": "2026-10-11T16:01:00+02:00",
+  "screeningDuration": null,
+  "audience": 25,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T13:30:00+02:00",
+  "reservationTimeTo": "2026-10-11T13:30:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 72,
+  "movieId": "d076c6bb-6baf-4f83-a62c-34a322ddb863",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "PL",
+  "subtitles": "EN",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [
+   {
+    "symbol": "KINO",
+    "description": "Tagi filmów ",
+    "tags": [
+     {
+      "orderNo": 2,
+      "symbol": "PREMIERE",
+      "description": "PREMIERE"
+     }
+    ]
+   }
+  ],
+  "screenFeatures": []
+ },
+ {
+  "id": "ebbe78fa-a4ab-4d8b-b570-7ba714c481da",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "b0e729b5-8ff9-431c-8c61-5e898026120a",
+  "moviePrintId": "4edf2434-1068-4b54-b4a4-aaea2e04d080",
+  "movieExternalId": "7823",
+  "moviePrintExternalId": "1797",
+  "screeningTimeFrom": "2026-10-11T16:30:00+02:00",
+  "screeningTimeTo": "2026-10-11T19:31:00+02:00",
+  "screeningDuration": null,
+  "audience": 34,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T17:00:00+02:00",
+  "reservationTimeTo": "2026-10-11T17:00:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 72,
+  "movieId": "d076c6bb-6baf-4f83-a62c-34a322ddb863",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "PL",
+  "subtitles": "EN",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [
+   {
+    "symbol": "KINO",
+    "description": "Tagi filmów ",
+    "tags": [
+     {
+      "orderNo": 2,
+      "symbol": "PREMIERE",
+      "description": "PREMIERE"
+     }
+    ]
+   }
+  ],
+  "screenFeatures": []
+ },
+ {
+  "id": "e47d9dd7-fa7b-4a95-8da2-05b188e05b29",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "b0e729b5-8ff9-431c-8c61-5e898026120a",
+  "moviePrintId": "4edf2434-1068-4b54-b4a4-aaea2e04d080",
+  "movieExternalId": "7823",
+  "moviePrintExternalId": "1797",
+  "screeningTimeFrom": "2026-10-11T20:00:00+02:00",
+  "screeningTimeTo": "2026-10-11T23:01:00+02:00",
+  "screeningDuration": null,
+  "audience": 2,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T20:30:00+02:00",
+  "reservationTimeTo": "2026-10-11T20:30:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 72,
+  "movieId": "d076c6bb-6baf-4f83-a62c-34a322ddb863",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "PL",
+  "subtitles": "EN",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [
+   {
+    "symbol": "KINO",
+    "description": "Tagi filmów ",
+    "tags": [
+     {
+      "orderNo": 2,
+      "symbol": "PREMIERE",
+      "description": "PREMIERE"
+     }
+    ]
+   }
+  ],
+  "screenFeatures": []
+ },
+ {
+  "id": "04dbb9c1-18b4-484f-acdd-f92acbe63674",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "14dd4fc2-7386-49d7-8a95-ef2fc2496d31",
+  "moviePrintId": "185463c8-3e98-4ec0-a0c9-bbc0576bd2e8",
+  "movieExternalId": "7830",
+  "moviePrintExternalId": "1744",
+  "screeningTimeFrom": "2026-10-11T16:15:00+02:00",
+  "screeningTimeTo": "2026-10-11T18:39:00+02:00",
+  "screeningDuration": null,
+  "audience": 0,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T16:45:00+02:00",
+  "reservationTimeTo": "2026-10-11T16:45:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 63,
+  "movieId": "be2bf01b-01e5-44af-9692-94e99801f061",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "EN",
+  "subtitles": "PL",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [
+   {
+    "symbol": "KINO",
+    "description": "Tagi filmów ",
+    "tags": [
+     {
+      "orderNo": 2,
+      "symbol": "PREMIERE",
+      "description": "PREMIERE"
+     }
+    ]
+   }
+  ],
+  "screenFeatures": []
+ },
+ {
+  "id": "40301668-916f-40fb-966f-c67c1fd0f74b",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "14dd4fc2-7386-49d7-8a95-ef2fc2496d31",
+  "moviePrintId": "185463c8-3e98-4ec0-a0c9-bbc0576bd2e8",
+  "movieExternalId": "7830",
+  "moviePrintExternalId": "1744",
+  "screeningTimeFrom": "2026-10-11T19:45:00+02:00",
+  "screeningTimeTo": "2026-10-11T22:09:00+02:00",
+  "screeningDuration": null,
+  "audience": 2,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T20:15:00+02:00",
+  "reservationTimeTo": "2026-10-11T20:15:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 63,
+  "movieId": "be2bf01b-01e5-44af-9692-94e99801f061",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "EN",
+  "subtitles": "PL",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [
+   {
+    "symbol": "KINO",
+    "description": "Tagi filmów ",
+    "tags": [
+     {
+      "orderNo": 2,
+      "symbol": "PREMIERE",
+      "description": "PREMIERE"
+     }
+    ]
+   }
+  ],
+  "screenFeatures": []
+ },
+ {
+  "id": "b5ce8532-428b-490f-8764-c78c576317be",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "a6833f50-0198-4eaf-b350-baf972c80e26",
+  "moviePrintId": "4edf2434-1068-4b54-b4a4-aaea2e04d080",
+  "movieExternalId": "7823",
+  "moviePrintExternalId": "1797",
+  "screeningTimeFrom": "2026-10-11T15:00:00+02:00",
+  "screeningTimeTo": "2026-10-11T18:01:00+02:00",
+  "screeningDuration": null,
+  "audience": 22,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T15:30:00+02:00",
+  "reservationTimeTo": "2026-10-11T15:30:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 91,
+  "movieId": "d076c6bb-6baf-4f83-a62c-34a322ddb863",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "PL",
+  "subtitles": "EN",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [
+   {
+    "symbol": "KINO",
+    "description": "Tagi filmów ",
+    "tags": [
+     {
+      "orderNo": 2,
+      "symbol": "PREMIERE",
+      "description": "PREMIERE"
+     }
+    ]
+   }
+  ],
+  "screenFeatures": []
+ },
+ {
+  "id": "5e7b72c6-71b9-45fa-b595-a44aea6b6335",
+  "cinemaId": "13ef71b3-75f3-4504-a367-e3b6b41f92b9",
+  "regionId": null,
+  "screenId": "a6833f50-0198-4eaf-b350-baf972c80e26",
+  "moviePrintId": "4edf2434-1068-4b54-b4a4-aaea2e04d080",
+  "movieExternalId": "7823",
+  "moviePrintExternalId": "1797",
+  "screeningTimeFrom": "2026-10-11T18:30:00+02:00",
+  "screeningTimeTo": "2026-10-11T21:31:00+02:00",
+  "screeningDuration": null,
+  "audience": 21,
+  "generalAdmission": false,
+  "saleTimeTo": "2026-10-11T19:00:00+02:00",
+  "reservationTimeTo": "2026-10-11T19:00:00+02:00",
+  "isScreenSwapping": false,
+  "availabilityStatus": 3,
+  "maxOccupancy": 91,
+  "movieId": "d076c6bb-6baf-4f83-a62c-34a322ddb863",
+  "printType": "2D",
+  "speakingType": "ORG",
+  "language": "PL",
+  "subtitles": "EN",
+  "subtitles2": "",
+  "soundType": "5.1",
+  "release": "",
+  "format": null,
+  "resolution": null,
+  "frameRate": null,
+  "movieSubPrintLabel": "",
+  "restrictedToCardTypeIds": [],
+  "tagGroups": [
+   {
+    "symbol": "KINO",
+    "description": "Tagi filmów ",
+    "tags": [
+     {
+      "orderNo": 2,
+      "symbol": "PREMIERE",
+      "description": "PREMIERE"
+     }
+    ]
+   }
+  ],
+  "screenFeatures": []
+ }
+]

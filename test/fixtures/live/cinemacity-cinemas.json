@@ -1,0 +1,182 @@
+{
+ "body": {
+  "cinemas": [
+   {
+    "id": "1090",
+    "groupId": "krakow",
+    "displayName": "Kraków - Bonarka",
+    "link": "https://www.cinema-city.pl/kina/bonarka",
+    "imageUrl": "https://www.cinema-city.pl/static/dam/jcr:dc3762f5-37d3-4ba2-a2dd-c18575af5f56",
+    "address": "ul. Kamieńskiego 11, https://www.cinema-city.pl/static/dam/jcr:72d78a36-452e-40b0-8592-d1d85b0e7f9e, 30-644, Kraków",
+    "addressInfo": {
+     "address1": "ul. Kamieńskiego 11",
+     "address2": null,
+     "address3": null,
+     "address4": "https://www.cinema-city.pl/static/dam/jcr:72d78a36-452e-40b0-8592-d1d85b0e7f9e",
+     "city": "Kraków",
+     "state": null,
+     "postalCode": "30-644"
+    },
+    "bookingUrl": null,
+    "blockOnlineSales": false,
+    "blockOnlineSalesUntil": null,
+    "latitude": 50.02694,
+    "longitude": 19.94972
+   },
+   {
+    "id": "1074",
+    "groupId": "warszawa",
+    "displayName": "Warszawa -  Arkadia",
+    "link": "https://www.cinema-city.pl/kina/arkadia",
+    "imageUrl": "https://www.cinema-city.pl/static/dam/jcr:73761c8b-9940-4469-a5e2-1c40b90bd595",
+    "address": "al. Jana Pawła II 82, 00-175, Warszawa",
+    "addressInfo": {
+     "address1": "al. Jana Pawła II 82",
+     "address2": null,
+     "address3": null,
+     "address4": null,
+     "city": "Warszawa",
+     "state": null,
+     "postalCode": "00-175"
+    },
+    "bookingUrl": null,
+    "blockOnlineSales": false,
+    "blockOnlineSalesUntil": null,
+    "latitude": 52.257217,
+    "longitude": 20.984465
+   },
+   {
+    "id": "1061",
+    "groupId": "warszawa",
+    "displayName": "Warszawa - Bemowo",
+    "link": "https://www.cinema-city.pl/kina/bemowo",
+    "imageUrl": "https://www.cinema-city.pl/static/dam/jcr:b5bb3e58-1b69-4741-9548-14dabe190ca6",
+    "address": "ul. Powstańców Śląskich 126a, https://www.cinema-city.pl/static/dam/jcr:9c4891fd-3815-49b8-9d58-5fc45e4bf5cd, 01-466, Warszawa",
+    "addressInfo": {
+     "address1": "ul. Powstańców Śląskich 126a",
+     "address2": null,
+     "address3": null,
+     "address4": "https://www.cinema-city.pl/static/dam/jcr:9c4891fd-3815-49b8-9d58-5fc45e4bf5cd",
+     "city": "Warszawa",
+     "state": null,
+     "postalCode": "01-466"
+    },
+    "bookingUrl": null,
+    "blockOnlineSales": false,
+    "blockOnlineSalesUntil": null,
+    "latitude": 52.26571,
+    "longitude": 20.932743
+   },
+   {
+    "id": "1096",
+    "groupId": "warszawa",
+    "displayName": "Warszawa - Białołęka Galeria Północna",
+    "link": "https://www.cinema-city.pl/kina/galeriapolnocna",
+    "imageUrl": "https://www.cinema-city.pl/static/dam/jcr:94a602bb-feb2-4fa7-aded-65b0aa949b53",
+    "address": "ul. Światowida 17, https://www.cinema-city.pl/static/dam/jcr:f23ca005-6319-48b8-9ae5-aba03811aa3c, 03-144, Warszawa",
+    "addressInfo": {
+     "address1": "ul. Światowida 17",
+     "address2": null,
+     "address3": null,
+     "address4": "https://www.cinema-city.pl/static/dam/jcr:f23ca005-6319-48b8-9ae5-aba03811aa3c",
+     "city": "Warszawa",
+     "state": null,
+     "postalCode": "03-144"
+    },
+    "bookingUrl": null,
+    "blockOnlineSales": false,
+    "blockOnlineSalesUntil": null,
+    "latitude": 52.318344,
+    "longitude": 20.964226
+   },
+   {
+    "id": "1069",
+    "groupId": "warszawa",
+    "displayName": "Warszawa - Janki",
+    "link": "https://www.cinema-city.pl/kina/janki",
+    "imageUrl": "https://www.cinema-city.pl/static/dam/jcr:58f1576c-82a4-46c3-8e0a-12686a6b4d69",
+    "address": "ul. Mszczonowska 3, https://www.cinema-city.pl/static/dam/jcr:cc82495f-f38e-4951-a7ec-0132c397ca5c, 05-090, Janki",
+    "addressInfo": {
+     "address1": "ul. Mszczonowska 3",
+     "address2": null,
+     "address3": null,
+     "address4": "https://www.cinema-city.pl/static/dam/jcr:cc82495f-f38e-4951-a7ec-0132c397ca5c",
+     "city": "Janki",
+     "state": null,
+     "postalCode": "05-090"
+    },
+    "bookingUrl": null,
+    "blockOnlineSales": false,
+    "blockOnlineSalesUntil": null,
+    "latitude": 52.135708,
+    "longitude": 20.892134
+   },
+   {
+    "id": "1070",
+    "groupId": "warszawa",
+    "displayName": "Warszawa - Mokotów",
+    "link": "https://www.cinema-city.pl/kina/mokotow",
+    "imageUrl": "https://www.cinema-city.pl/static/dam/jcr:d39bc479-6ebe-4025-9aae-0ec4fa82ea99",
+    "address": "ul. Wołoska 12, https://www.cinema-city.pl/static/dam/jcr:d7725505-1bd2-4dec-8e67-4612fb66a1e9, 02-675, Warszawa",
+    "addressInfo": {
+     "address1": "ul. Wołoska 12",
+     "address2": null,
+     "address3": null,
+     "address4": "https://www.cinema-city.pl/static/dam/jcr:d7725505-1bd2-4dec-8e67-4612fb66a1e9",
+     "city": "Warszawa",
+     "state": null,
+     "postalCode": "02-675"
+    },
+    "bookingUrl": null,
+    "blockOnlineSales": false,
+    "blockOnlineSalesUntil": null,
+    "latitude": 52.17884,
+    "longitude": 21.00342
+   },
+   {
+    "id": "1068",
+    "groupId": "warszawa",
+    "displayName": "Warszawa - Promenada",
+    "link": "https://www.cinema-city.pl/kina/promenada",
+    "imageUrl": "https://www.cinema-city.pl/static/dam/jcr:9d39b776-c0dd-4485-8bb6-3c025bf1beb0",
+    "address": "ul. Ostrobramska 75c, https://www.cinema-city.pl/static/dam/jcr:e8f236c3-5629-4c5c-b9a7-3c361a7ab357, 04-175, Warszawa",
+    "addressInfo": {
+     "address1": "ul. Ostrobramska 75c",
+     "address2": null,
+     "address3": null,
+     "address4": "https://www.cinema-city.pl/static/dam/jcr:e8f236c3-5629-4c5c-b9a7-3c361a7ab357",
+     "city": "Warszawa",
+     "state": null,
+     "postalCode": "04-175"
+    },
+    "bookingUrl": null,
+    "blockOnlineSales": false,
+    "blockOnlineSalesUntil": null,
+    "latitude": 52.2316,
+    "longitude": 21.106195
+   },
+   {
+    "id": "1060",
+    "groupId": "warszawa",
+    "displayName": "Warszawa - Sadyba",
+    "link": "https://www.cinema-city.pl/kina/sadyba",
+    "imageUrl": "https://www.cinema-city.pl/static/dam/jcr:bb986929-b525-4f95-8f3c-39eedf9a2879",
+    "address": "ul. Powsińska 31, https://www.cinema-city.pl/static/dam/jcr:a98bef16-2311-4696-8353-11dfbfb48827, 02-903, Warszawa",
+    "addressInfo": {
+     "address1": "ul. Powsińska 31",
+     "address2": null,
+     "address3": null,
+     "address4": "https://www.cinema-city.pl/static/dam/jcr:a98bef16-2311-4696-8353-11dfbfb48827",
+     "city": "Warszawa",
+     "state": null,
+     "postalCode": "02-903"
+    },
+    "bookingUrl": null,
+    "blockOnlineSales": false,
+    "blockOnlineSalesUntil": null,
+    "latitude": 52.187485,
+    "longitude": 21.061102
+   }
+  ]
+ }
+}

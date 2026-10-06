@@ -3,8 +3,13 @@ import type { CinemaProvider, FetchLike, SourceCinema, SourceShowtime } from "..
 import { normalize, withZoneOffset } from "../util";
 
 /**
- * Cinema City Poland (fallback source), via the JSON "quickbook" service its own website uses
- * (no key needed). 10103 is the Polish tenant.
+ * Cinema City Poland, via the JSON "quickbook" service its own website uses (no key needed).
+ * 10103 is the Polish tenant.
+ *   GET {BASE}/cinemas/with-event/until/{date}  -> body.cinemas[] = { id, displayName: "Warszawa - Arkadia", link, addressInfo: { address1, city } }
+ *   GET {BASE}/film-events/in-cinema/{id}/at-date/{date}
+ *     -> body.films[] = { id, name, length, posterLink, link }
+ *        body.events[] = { filmId, eventDateTime (local, no offset), attributeIds: ["2d", "imax", "subbed", ...], bookingLink }
+ * Cinemas are matched to a city by addressInfo.city, so "Janki" (outside Warsaw) is not a Warsaw cinema.
  */
 const BASE = "https://www.cinema-city.pl/pl/data-api-service/v1/quickbook/10103";
 const LANG = "pl_PL";
@@ -48,6 +53,8 @@ const LANGUAGE: [string, string][] = [
   ["dubbed", "dubbing"],
   ["subbed", "napisy"],
 ];
+/** Dubbing into a language other than Polish ("dubbed-lang-uk") is marked, so it is not mistaken for a Polish dub. */
+const DUB_LANGUAGES: Record<string, string> = { uk: "ukraiński" };
 
 /** "2D, napisy" / "IMAX 3D, dubbing" from Cinema City attribute ids. */
 export function formatFromAttributes(attributeIds: string[] = []): string | undefined {
@@ -56,13 +63,25 @@ export function formatFromAttributes(attributeIds: string[] = []): string | unde
   // "IMAX 3D" reads naturally; drop 2D when a premium format is present.
   const premium = projection.filter((p) => p !== "2D" && p !== "3D");
   const shown = premium.length ? [...premium, ...projection.filter((p) => p === "3D")] : projection;
-  const language = LANGUAGE.find(([id]) => attrs.has(id))?.[1];
+  let language = LANGUAGE.find(([id]) => attrs.has(id))?.[1];
+  const dubbedInto = [...attrs].find((a) => a.startsWith("dubbed-lang-"))?.slice("dubbed-lang-".length);
+  if (language === "dubbing" && dubbedInto && dubbedInto !== "pl") language = `dubbing ${DUB_LANGUAGES[dubbedInto] ?? dubbedInto}`;
   const parts = [shown.join(" "), language].filter(Boolean);
   return parts.length ? parts.join(", ") : undefined;
 }
 
+/** "Warszawa -  Arkadia" -> "Cinema City Warszawa Arkadia". */
+/**
+ * Film names can carry the version ("Verity. Coraz większy mrok ukraiński dubbing",
+ * "Avengers: Koniec gry – wersja rozszerzona Infinity Vision"); drop it so versions group together.
+ */
+function filmTitle(name: string | undefined): string | undefined {
+  return name?.replace(/\s+(ukraiński dubbing|Infinity Vision)$/i, "").trim();
+}
+
 function cinemaName(displayName: string): string {
-  return /cinema city/i.test(displayName) ? displayName : `Cinema City ${displayName}`;
+  const name = displayName.replace(/\s+-\s+/g, " ").replace(/\s+/g, " ").trim();
+  return /cinema city/i.test(name) ? name : `Cinema City ${name}`;
 }
 
 export class CinemaCityProvider implements CinemaProvider {
@@ -100,7 +119,7 @@ export class CinemaCityProvider implements CinemaProvider {
         return {
           cinema: cinemaName(c.displayName ?? c.id),
           city,
-          movie: film?.name?.trim() || "Unknown",
+          movie: filmTitle(film?.name) || "Unknown",
           start: withZoneOffset(ev.eventDateTime),
           format: formatFromAttributes(ev.attributeIds),
           bookingUrl: ev.bookingLink || ev.bookingRouterLaunchLink || film?.link,

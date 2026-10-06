@@ -1,0 +1,295 @@
+{
+ "status": 200,
+ "data": {
+  "screenings": {
+   "2026-10-11": {
+    "m4422": {
+     "screenings": [
+      {
+       "timeFrom": "2026-10-11 18:30:00",
+       "saleTimeTo": "2026-10-11 19:00:00",
+       "sourceId": "31e781e2-a5f7-4825-9c7c-0ce16e67bea1",
+       "cinemaSourceId": "4ca060df-c4f2-4157-8905-bf46527aae58",
+       "settings": [],
+       "cinemaScreen": {
+        "feature": "",
+        "partialDreamSeatsNumber": null
+       },
+       "moviePrint": {
+        "printType": "2D",
+        "printRelease": "2D/NAP",
+        "soundType": "5.1",
+        "speakingTypeLabel": "Napisy"
+       }
+      },
+      {
+       "timeFrom": "2026-10-11 20:30:00",
+       "saleTimeTo": "2026-10-11 21:00:00",
+       "sourceId": "a374d59a-78a5-450b-9cb8-cba6ed0d0b0a",
+       "cinemaSourceId": "4ca060df-c4f2-4157-8905-bf46527aae58",
+       "settings": [],
+       "cinemaScreen": {
+        "feature": "Dream",
+        "partialDreamSeatsNumber": null
+       },
+       "moviePrint": {
+        "printType": "2D",
+        "printRelease": "2D/NAP/ATMOS",
+        "soundType": "ATM",
+        "speakingTypeLabel": "Napisy"
+       }
+      }
+     ]
+    },
+    "m4423": {
+     "screenings": [
+      {
+       "timeFrom": "2026-10-11 11:00:00",
+       "saleTimeTo": "2026-10-11 11:30:00",
+       "sourceId": "8f13be0c-210f-40ee-a96d-cd15e7a8b2d1",
+       "cinemaSourceId": "4ca060df-c4f2-4157-8905-bf46527aae58",
+       "settings": [],
+       "cinemaScreen": {
+        "feature": "",
+        "partialDreamSeatsNumber": null
+       },
+       "moviePrint": {
+        "printType": "2D",
+        "printRelease": "2D/ORG",
+        "soundType": "5.1",
+        "speakingTypeLabel": null
+       }
+      },
+      {
+       "timeFrom": "2026-10-11 14:30:00",
+       "saleTimeTo": "2026-10-11 15:00:00",
+       "sourceId": "2dfb05ff-099e-4115-b662-3f78c86dc88d",
+       "cinemaSourceId": "4ca060df-c4f2-4157-8905-bf46527aae58",
+       "settings": [],
+       "cinemaScreen": {
+        "feature": "",
+        "partialDreamSeatsNumber": null
+       },
+       "moviePrint": {
+        "printType": "2D",
+        "printRelease": "2D/ORG",
+        "soundType": "5.1",
+        "speakingTypeLabel": null
+       }
+      },
+      {
+       "timeFrom": "2026-10-11 18:00:00",
+       "saleTimeTo": "2026-10-11 18:30:00",
+       "sourceId": "20c453c7-fd6a-461a-b1b8-e3f3923e9b2b",
+       "cinemaSourceId": "4ca060df-c4f2-4157-8905-bf46527aae58",
+       "settings": [],
+       "cinemaScreen": {
+        "feature": "",
+        "partialDreamSeatsNumber": null
+       },
+       "moviePrint": {
+        "printType": "2D",
+        "printRelease": "2D/ORG",
+        "soundType": "5.1",
+        "speakingTypeLabel": null
+       }
+      }
+     ]
+    },
+    "e2825": {
+     "screenings": [
+      {
+       "timeFrom": "2026-10-11 10:30:00",
+       "saleTimeTo": "2026-10-11 11:00:00",
+       "sourceId": "1b595548-de8a-4e7a-b8bd-af88b58a3f19",
+       "cinemaSourceId": "4ca060df-c4f2-4157-8905-bf46527aae58",
+       "settings": [],
+       "cinemaScreen": {
+        "feature": "",
+        "partialDreamSeatsNumber": null
+       },
+       "screeningMovies": [
+        {
+         "timeFrom": "2026-10-11 10:30:00",
+         "movie": {
+          "id": 4746,
+          "sourceId": "3f2cb4df-54fe-4469-ab18-62f1c634b8f3",
+          "title": "Bing i opowieści o zwierzątkach",
+          "titleOriginal": "Bing i opowieści o zwierzątkach",
+          "slug": "bing-i-opowiesci-o-zwierzatkach",
+          "duration": 74,
+          "age": null,
+          "imdbRating": null,
+          "flags": [
+           {
+            "name": "Dubbing"
+           }
+          ],
+          "genres": [
+           {
+            "name": "animowany"
+           }
+          ],
+          "posterPhoto": {
+           "filePath": "film/bing-i-opowiesci-o-zwierzatkach/bing-i-opowiesci-o-zwierzatkach-plakat-57885.jpg",
+           "url": "https://img.helios.pl/pliki/film/bing-i-opowiesci-o-zwierzatkach/bing-i-opowiesci-o-zwierzatkach-plakat-57885.jpg",
+           "meta": {
+            "name": "helios_BING_202609_400x578px_RGB_v01.jpg",
+            "size": 224852,
+            "width": 400,
+            "height": 578,
+            "extension": "jpg",
+            "mime_type": "image/jpeg"
+           },
+           "alt": null
+          },
+          "trailers": [],
+          "isImax": false
+         },
+         "moviePrint": {
+          "printType": "2D",
+          "printRelease": "2D/DUB",
+          "soundType": "5.1",
+          "speakingTypeLabel": "Dubbing"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "2026-10-12": {
+    "m4423": {
+     "screenings": [
+      {
+       "timeFrom": "2026-10-12 14:00:00",
+       "saleTimeTo": "2026-10-12 14:30:00",
+       "sourceId": "34b4427e-4d57-405c-a72a-0ab35e560527",
+       "cinemaSourceId": "4ca060df-c4f2-4157-8905-bf46527aae58",
+       "settings": [],
+       "cinemaScreen": {
+        "feature": "",
+        "partialDreamSeatsNumber": null
+       },
+       "moviePrint": {
+        "printType": "2D",
+        "printRelease": "2D/ORG",
+        "soundType": "5.1",
+        "speakingTypeLabel": null
+       }
+      }
+     ]
+    }
+   }
+  },
+  "movies": {
+   "m4422": {
+    "id": 4422,
+    "sourceId": "2ad746f7-9c77-4d33-bb06-d827bdc66310",
+    "title": "Digger",
+    "titleOriginal": "Digger",
+    "slug": "digger",
+    "duration": 129,
+    "genres": [
+     {
+      "name": "komedia"
+     },
+     {
+      "name": "przygodowy"
+     },
+     {
+      "name": "akcja"
+     }
+    ],
+    "posterPhoto": {
+     "filePath": "film/digger/digger-plakat-45.jpg",
+     "url": "https://img.helios.pl/pliki/film/digger/digger-plakat-45.jpg",
+     "meta": {
+      "name": "digger-plakat-45.jpg",
+      "size": 58045,
+      "width": 400,
+      "height": 593,
+      "extension": "jpg",
+      "mime_type": "image/jpeg"
+     },
+     "alt": null
+    },
+    "flags": [
+     {
+      "name": "Napisy"
+     },
+     {
+      "name": "Już w sprzedaży!"
+     }
+    ],
+    "isImax": false
+   },
+   "m4423": {
+    "id": 4423,
+    "sourceId": "979c36fd-575e-437f-9705-eb800476b893",
+    "title": "Lalka",
+    "titleOriginal": null,
+    "slug": "lalka",
+    "duration": 162,
+    "genres": [
+     {
+      "name": "dramat"
+     },
+     {
+      "name": "romans"
+     }
+    ],
+    "posterPhoto": {
+     "filePath": "film/lalka/lalka-plakat-245.jpg",
+     "url": "https://img.helios.pl/pliki/film/lalka/lalka-plakat-245.jpg",
+     "meta": {
+      "name": "lalka-plakat-245.jpg",
+      "size": 60691,
+      "width": 400,
+      "height": 566,
+      "extension": "jpg",
+      "mime_type": "image/jpeg"
+     },
+     "alt": null
+    },
+    "flags": [
+     {
+      "name": "Napisy"
+     },
+     {
+      "name": "Film polski"
+     }
+    ],
+    "isImax": false
+   }
+  },
+  "events": {
+   "e2825": {
+    "id": 2825,
+    "sourceId": "ff89a1d6-93b0-4a4e-9965-b2db64bb28e4",
+    "name": "Bing i opowieści o zwierzątkach – seanse z konkursami HDD",
+    "slug": "bing-i-opowiesci-o-zwierzatkach-seanse-z-konkursami-hdd",
+    "duration": 104,
+    "genres": [
+     {
+      "name": "animowany"
+     }
+    ],
+    "posterPhoto": {
+     "filePath": "wydarzenie/bing-i-opowiesci-o-zwierzatkach-seanse-z-konkursami-hdd/bing-i-opowiesci-o-zwierzatkach-seanse-z-konkursami-hdd-plakat-65.jpg",
+     "url": "https://img.helios.pl/pliki/wydarzenie/bing-i-opowiesci-o-zwierzatkach-seanse-z-konkursami-hdd/bing-i-opowiesci-o-zwierzatkach-seanse-z-konkursami-hdd-plakat-65.jpg",
+     "meta": {
+      "name": "bing-i-opowiesci-o-zwierzatkach-seanse-z-konkursami-hdd-plakat-65.jpg",
+      "size": 224852,
+      "width": 400,
+      "height": 578,
+      "extension": "jpg",
+      "mime_type": "image/jpeg"
+     },
+     "alt": null
+    },
+    "isImax": false
+   }
+  }
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "body": {
+  "films": [
+   {
+    "id": "8384o2r",
+    "name": "Lalka",
+    "length": 165,
+    "posterLink": "https://www.cinema-city.pl/xmedia-cw/repo/feats/posters/8384O2R.jpg",
+    "videoLink": "https://www.youtube.com/watch?v=DmmBAXjbZWk",
+    "link": "https://www.cinema-city.pl/filmy/lalka/8384o2r",
+    "weight": -8,
+    "releaseYear": "2026",
+    "releaseDate": "2026-09-30T00:00:00",
+    "attributeIds": [
+     "2d",
+     "drama",
+     "imax",
+     "laser-barco",
+     "na",
+     "original",
+     "original-lang-pl",
+     "romance"
+    ]
+   }
+  ],
+  "events": [
+   {
+    "id": "1725169",
+    "filmId": "8384o2r",
+    "cinemaId": "1060",
+    "businessDay": "2026-10-06",
+    "eventDateTime": "2026-10-06T18:00:00",
+    "attributeIds": [
+     "2d",
+     "drama",
+     "imax",
+     "na",
+     "original",
+     "original-lang-pl",
+     "romance"
+    ],
+    "languages": {
+     "original": [
+      "pl"
+     ],
+     "dubbed": [],
+     "voiceover": [],
+     "subtitles": []
+    },
+    "bookingLink": "https://tickets.cinema-city.pl/api/order/1725169?lang=pl",
+    "compositeBookingLink": {
+     "type": "PG",
+     "bookingUrl": {
+      "url": "https://tickets.cinema-city.pl/api/order/1725169",
+      "params": {
+       "lang": "pl-PL"
+      }
+     },
+     "obsoleteBookingUrl": "https://tickets.cinema-city.pl/api/order/1725169?lang=pl",
+     "blockOnlineSales": false,
+     "blockOnlineSalesUntil": null,
+     "serviceUrl": "https://www.cinema-city.pl/booking"
+    },
+    "bookingRouterLaunchLink": "https://www.cinema-city.pl/pl/booking-router/launch/1060/1725169?lang=pl",
+    "presentationCode": "1725169",
+    "soldOut": false,
+    "availabilityRatio": 0.8649,
+    "auditorium": "IMAX BNP Paribas",
+    "auditoriumTinyName": "IMAX"
+   }
+  ]
+ }
+}

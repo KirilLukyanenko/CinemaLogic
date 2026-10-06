@@ -9,7 +9,9 @@ import type { Venue } from "../types";
  * lists the words that identify each one.
  */
 export const WARSZAWA: Venue[] = [
-  // Chains
+  // Chains. Multikino ids are from the cinemas' booking links
+  // (multikino.pl/rezerwacja-biletow/podsumowanie/{id}/...); the Helios id is from
+  // api.helios.pl/api/v1/cinemas ("Warszawa Helios Blue City", id 26).
   { name: "Cinema City Arkadia", chain: "cinema-city", match: ["arkadia"], address: "al. Jana Pawła II 82", district: "Wola" },
   { name: "Cinema City Bemowo", chain: "cinema-city", match: ["bemowo"], address: "ul. Powstańców Śląskich 126A", district: "Bemowo" },
   { name: "Cinema City Białołęka", chain: "cinema-city", match: ["bialoleka", "galeria polnocna"], address: "ul. Światowida 17 (Galeria Północna)", district: "Białołęka" },
@@ -17,12 +19,12 @@ export const WARSZAWA: Venue[] = [
   { name: "Cinema City Promenada", chain: "cinema-city", match: ["promenada"], address: "ul. Ostrobramska 75C", district: "Praga-Południe" },
   // "Sadyba IMAX" is listed separately by some sources; it is the same cinema.
   { name: "Cinema City Sadyba", chain: "cinema-city", match: ["sadyba"], address: "ul. Powsińska 31", district: "Mokotów" },
-  { name: "Multikino Złote Tarasy", chain: "multikino", match: ["zlote tarasy"], address: "ul. Złota 59", district: "Śródmieście", url: "https://www.multikino.pl/repertuar/warszawa-zlote-tarasy/teraz-gramy" },
-  { name: "Multikino Targówek", chain: "multikino", match: ["targowek"], address: "ul. Głębocka 15 (G City)", district: "Targówek", url: "https://www.multikino.pl/repertuar/warszawa-g-city-targowek/teraz-gramy" },
-  { name: "Multikino Wola Park", chain: "multikino", match: ["wola"], address: "ul. Górczewska 124", district: "Wola", url: "https://www.multikino.pl/repertuar/warszawa-wola-park/teraz-gramy" },
-  { name: "Multikino Reduta", chain: "multikino", match: ["reduta"], address: "Al. Jerozolimskie 148 (Atrium Reduta)", district: "Ochota" },
-  { name: "Multikino Młociny", chain: "multikino", match: ["mlociny"], address: "ul. Zgrupowania AK \"Kampinos\" 15", district: "Bielany" },
-  { name: "Helios Blue City", chain: "helios", match: ["blue city"], address: "Al. Jerozolimskie 179", district: "Ochota" },
+  { name: "Multikino Złote Tarasy", chain: "multikino", multikinoId: "0013", match: ["zlote tarasy"], address: "ul. Złota 59", district: "Śródmieście", url: "https://www.multikino.pl/repertuar/warszawa-zlote-tarasy/teraz-gramy" },
+  { name: "Multikino Targówek", chain: "multikino", multikinoId: "0024", match: ["targowek"], address: "ul. Głębocka 15 (G City)", district: "Targówek", url: "https://www.multikino.pl/repertuar/warszawa-g-city-targowek/teraz-gramy" },
+  { name: "Multikino Wola Park", chain: "multikino", multikinoId: "0025", match: ["wola"], address: "ul. Górczewska 124", district: "Wola", url: "https://www.multikino.pl/repertuar/warszawa-wola-park/teraz-gramy" },
+  { name: "Multikino Reduta", chain: "multikino", multikinoId: "0052", match: ["reduta"], address: "Al. Jerozolimskie 148 (Atrium Reduta)", district: "Ochota" },
+  { name: "Multikino Młociny", chain: "multikino", multikinoId: "0040", match: ["mlociny"], address: "ul. Zgrupowania AK \"Kampinos\" 15", district: "Bielany" },
+  { name: "Helios Blue City", chain: "helios", heliosId: "26", match: ["blue city"], address: "Al. Jerozolimskie 179", district: "Ochota" },
 
   // Independent, arthouse and cultural-centre cinemas
   { name: "Kinoteka", match: ["kinoteka"], address: "pl. Defilad 1 (Pałac Kultury i Nauki)", district: "Śródmieście", url: "https://kinoteka.pl/" },
@@ -39,6 +41,7 @@ export const WARSZAWA: Venue[] = [
   { name: "Kino Praha", match: ["kino praha"], address: "ul. Jagiellońska 26", district: "Praga-Północ" },
   { name: "Kino Świt", match: ["kino swit"], address: "ul. Wysockiego 11", district: "Targówek" },
   { name: "Kino Kadr", match: ["kadr"], address: "ul. Rożana 22/24 (Dom Kultury Kadr)", district: "Mokotów" },
+  // The portal calls it "Kino ADA w Artystycznym Domu Animacji".
   { name: "ADA Kino Studyjne", match: ["ada"], address: "ul. Ks. Juliana Chrościckiego 14 (Dom Kultury Włochy)", district: "Włochy" },
   { name: "Dom Sztuki", match: ["dom sztuki", "domu sztuki"], address: "ul. Puszczyka 17", district: "Ursynów" },
   { name: "Kino Na Boku", match: ["na boku"], address: "ul. Żegańska 1a", district: "Wawer" },
@@ -46,6 +49,8 @@ export const WARSZAWA: Venue[] = [
   { name: "Kino Głębocka 66", match: ["glebocka 66"], address: "ul. Głębocka 66", district: "Białołęka" },
   { name: "Kinomuzeum", match: ["kinomuzeum"], district: "Śródmieście" },
   { name: "Kino Syrena", match: ["kino syrena"], address: "Muzeum Warszawy, Rynek Starego Miasta 28-42", district: "Śródmieście" },
+  // Listed by the portal from October 2026 ("Terminal Kultury Gocław w Warszawie").
+  { name: "Terminal Kultury Gocław", match: ["terminal kultury"], district: "Praga-Południe" },
   { name: "Kino Kępa", match: ["kino kepa"], address: "Prom Kultury Saska Kępa, ul. Brukselska 23", district: "Praga-Południe" },
   { name: "Kino Służew", match: ["sluzewski dom kultury"], district: "Mokotów" },
 ];

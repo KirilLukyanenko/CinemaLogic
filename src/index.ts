@@ -2,14 +2,16 @@ import { canonicalCity, cityList } from "./cities";
 import { CinemaCityProvider } from "./providers/cinemaCity";
 import { CoigdzieProvider } from "./providers/coigdzie";
 import { HeliosProvider } from "./providers/helios";
+import { KinogramProvider } from "./providers/kinogram";
 import { MultikinoProvider } from "./providers/multikino";
 import type { Cinema, CinemaProvider, FetchLike, Movie, Showtime, ShowtimeQuery, SourceShowtime, Venue } from "./types";
 import { containsWords, isIsoDate, normalize, slugify } from "./util";
 
 export * from "./types";
 export { CinemaCityProvider, formatFromAttributes } from "./providers/cinemaCity";
-export { CoigdzieProvider, parseDayPage, splitTitle } from "./providers/coigdzie";
+export { CoigdzieProvider, parseDayPage, splitTitle, weekdayName } from "./providers/coigdzie";
 export { HeliosProvider, parseHeliosScreenings } from "./providers/helios";
+export { KinogramProvider, parseKinogramScreenings } from "./providers/kinogram";
 export { MultikinoProvider, parseMultikinoFilms } from "./providers/multikino";
 export { WARSZAWA } from "./cities/warszawa";
 
@@ -34,9 +36,9 @@ export function defaultProviders(fetchFn?: FetchLike): CinemaProvider[] {
   return [new CoigdzieProvider(fetchFn)];
 }
 
-/** The chains' own APIs: fresher than the portal for their cinemas. */
+/** The chains' and cinemas' own sources: fresher than the portal for their cinemas. */
 export function defaultSiteProviders(fetchFn?: FetchLike): CinemaProvider[] {
-  return [new CinemaCityProvider(fetchFn), new MultikinoProvider(fetchFn), new HeliosProvider(fetchFn)];
+  return [new CinemaCityProvider(fetchFn), new MultikinoProvider(fetchFn), new HeliosProvider(fetchFn), new KinogramProvider(fetchFn)];
 }
 
 const CHAIN_WORDS: Record<NonNullable<Venue["chain"]>, string> = {
@@ -133,7 +135,8 @@ export function createCinemaLogic(options: CinemaLogicOptions = {}) {
   async function getMovies(opts: ShowtimeQuery): Promise<Movie[]> {
     const movies = new Map<string, Movie>();
     for (const s of await collect(opts)) {
-      const key = normalize(s.movie);
+      // Sources punctuate titles differently ("The Social Reckoning: W sieci…" / "The Social Reckoning. W sieci…").
+      const key = normalize(s.movie).replace(/[^a-z0-9]+/g, " ").trim();
       let movie = movies.get(key);
       if (!movie) {
         movie = { title: s.movie, showtimes: [] };

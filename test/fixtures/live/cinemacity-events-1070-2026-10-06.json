@@ -1,0 +1,82 @@
+{
+ "body": {
+  "films": [
+   {
+    "id": "8383s2r1",
+    "name": "Avengers: Koniec gry – wersja rozszerzona Infinity Vision",
+    "length": 186,
+    "posterLink": "https://www.cinema-city.pl/xmedia-cw/repo/feats/posters/8383S2R1.jpg",
+    "videoLink": "https://www.youtube.com/watch?v=_rLJrpgzVRU",
+    "link": "https://www.cinema-city.pl/filmy/avengers-koniec-gry-wersja-rozszerzona-infinity-vision/8383s2r1",
+    "weight": 0,
+    "releaseYear": null,
+    "releaseDate": "2026-09-25T00:00:00",
+    "attributeIds": [
+     "2d",
+     "action",
+     "adventure",
+     "first-subbed-lang-pl",
+     "infinity-vision",
+     "laser-barco",
+     "na",
+     "original-lang-en",
+     "sci-fi",
+     "screenx",
+     "subbed"
+    ]
+   }
+  ],
+  "events": [
+   {
+    "id": "1724405",
+    "filmId": "8383s2r1",
+    "cinemaId": "1070",
+    "businessDay": "2026-10-06",
+    "eventDateTime": "2026-10-06T18:00:00",
+    "attributeIds": [
+     "2d",
+     "action",
+     "adventure",
+     "first-subbed-lang-pl",
+     "infinity-vision",
+     "laser-barco",
+     "na",
+     "original-lang-en",
+     "sci-fi",
+     "screenx",
+     "subbed"
+    ],
+    "languages": {
+     "original": [
+      "en"
+     ],
+     "dubbed": [],
+     "voiceover": [],
+     "subtitles": [
+      "pl"
+     ]
+    },
+    "bookingLink": "https://tickets.cinema-city.pl/api/order/1724405?lang=pl",
+    "compositeBookingLink": {
+     "type": "PG",
+     "bookingUrl": {
+      "url": "https://tickets.cinema-city.pl/api/order/1724405",
+      "params": {
+       "lang": "pl-PL"
+      }
+     },
+     "obsoleteBookingUrl": "https://tickets.cinema-city.pl/api/order/1724405?lang=pl",
+     "blockOnlineSales": false,
+     "blockOnlineSalesUntil": null,
+     "serviceUrl": "https://www.cinema-city.pl/booking"
+    },
+    "bookingRouterLaunchLink": "https://www.cinema-city.pl/pl/booking-router/launch/1070/1724405?lang=pl",
+    "presentationCode": "1724405",
+    "soldOut": false,
+    "availabilityRatio": 1.0,
+    "auditorium": "Sala 14 Screen X - VITAY ORLEN",
+    "auditoriumTinyName": "14"
+   }
+  ]
+ }
+}

@@ -1,0 +1,103 @@
+{
+ "907561e2-e909-440a-bdfe-fa91f67ce66a": {
+  "id": "907561e2-e909-440a-bdfe-fa91f67ce66a",
+  "title": "W sercu dziczy",
+  "originalTitle": "Heart of the Beast",
+  "duration": 101,
+  "yearOfProduction": "2026",
+  "genres": [
+   {
+    "id": "5119b12a-7f6d-4def-9631-5ec7b7d9bc07",
+    "name": "Dramat",
+    "description": ""
+   },
+   {
+    "id": "8d348c74-4d7e-49dc-8333-b55a2267a7e5",
+    "name": "Przygodowy",
+    "description": ""
+   }
+  ],
+  "posters": [
+   "https://media.user.com/uploads/j0sawm-kinogram/w-sercu-dziczy_VLChgun.jpg"
+  ],
+  "premiereDate": "2026-09-26T00:00:00+02:00",
+  "country": " The United States of America"
+ },
+ "be2bf01b-01e5-44af-9692-94e99801f061": {
+  "id": "be2bf01b-01e5-44af-9692-94e99801f061",
+  "title": "Digger",
+  "originalTitle": "Digger",
+  "duration": 128,
+  "yearOfProduction": "2026",
+  "genres": [
+   {
+    "id": "5119b12a-7f6d-4def-9631-5ec7b7d9bc07",
+    "name": "Dramat",
+    "description": ""
+   },
+   {
+    "id": "cbfcda4d-ddcd-421e-83a5-ed3913952736",
+    "name": "Komedia",
+    "description": ""
+   }
+  ],
+  "posters": [
+   "https://media.user.com/uploads/j0sawm-kinogram/digger_9LPbnUk.jpg"
+  ],
+  "premiereDate": "2026-10-05T00:00:00+02:00",
+  "country": " The United States of America"
+ },
+ "246706c7-1788-4e89-aa5d-aac31c3cf5f1": {
+  "id": "246706c7-1788-4e89-aa5d-aac31c3cf5f1",
+  "title": "Tony",
+  "originalTitle": "Tony",
+  "duration": 104,
+  "yearOfProduction": "2026",
+  "genres": [
+   {
+    "id": "182ead9c-0bdf-4d06-909d-b3e093d4ee46",
+    "name": "Biograficzny",
+    "description": ""
+   },
+   {
+    "id": "cbfcda4d-ddcd-421e-83a5-ed3913952736",
+    "name": "Komedia",
+    "description": ""
+   },
+   {
+    "id": "849ca40b-277c-453d-8c91-989ba74fc9e5",
+    "name": "Obyczajowy",
+    "description": ""
+   }
+  ],
+  "posters": [
+   "https://media.user.com/uploads/j0sawm-kinogram/tony-plakat-b1-net-2-2_tUHqZl4.jpg"
+  ],
+  "premiereDate": "2026-09-04T00:00:00+02:00",
+  "country": " The United States of America"
+ },
+ "d076c6bb-6baf-4f83-a62c-34a322ddb863": {
+  "id": "d076c6bb-6baf-4f83-a62c-34a322ddb863",
+  "title": "Lalka",
+  "originalTitle": "Lalka",
+  "duration": 165,
+  "yearOfProduction": "",
+  "genres": [
+   {
+    "id": "0b53f5bb-0538-4dc2-a993-25dea039992b",
+    "name": "Kostiumowy",
+    "description": ""
+   },
+   {
+    "id": "5119b12a-7f6d-4def-9631-5ec7b7d9bc07",
+    "name": "Dramat",
+    "description": ""
+   }
+  ],
+  "posters": [
+   "https://i.ibb.co/d0Vk6g5y/7981-Easy-Resize-com.jpg"
+  ],
+  "premiereDate": "2026-09-30T00:00:00+02:00",
+  "country": " Poland"
+ }
+}

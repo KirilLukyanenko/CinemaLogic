@@ -1,12 +1,14 @@
 import { parse, type HTMLElement } from "node-html-parser";
 import { getText } from "../http";
 import type { CinemaProvider, FetchLike, SourceCinema, SourceShowtime } from "../types";
-import { todayInWarsaw, withZoneOffset } from "../util";
+import { slugify, todayInWarsaw, withZoneOffset } from "../util";
 
 /**
  * kino.coigdzie.pl: a portal listing the schedule of every cinema in a city,
  * chains and small/arthouse ones alike. Pages are server-rendered HTML, one per
- * city and day, grouped by movie:
+ * city and day: /miasto/{city slug}/dzien/{weekday}, e.g. /miasto/krakow/dzien/środa.
+ * The day is a Polish weekday name, so only today and the next 6 days can be read;
+ * an ISO date in that place is ignored and some other day is served. Grouped by movie:
  *
  *   div.movie
  *     a.title | h2                 "Avengers: Koniec gry 3D (dubbing)"
@@ -19,20 +21,40 @@ import { todayInWarsaw, withZoneOffset } from "../util";
  */
 const SITE = "https://kino.coigdzie.pl";
 const CACHE_TTL_MS = 10 * 60 * 1000;
+/** Today plus the next 6 days: one page per weekday name. */
+const DAYS_AHEAD = 7;
+const WEEKDAYS = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
+
+const utcDay = (date: string) => Date.UTC(+date.slice(0, 4), +date.slice(5, 7) - 1, +date.slice(8, 10));
+
+/** "2026-10-06" -> "wtorek". */
+export function weekdayName(date: string): string {
+  return WEEKDAYS[new Date(utcDay(date)).getUTCDay()]!;
+}
+
+function daysBetween(from: string, to: string): number {
+  return Math.round((utcDay(to) - utcDay(from)) / 86_400_000);
+}
 
 type ParsedDay = { showtimes: SourceShowtime[]; cinemas: SourceCinema[] };
 
 const LANGUAGE = /\s*\((dubbing|napisy|lektor|[a-zA-Z]{2,4}\.)\)/gi;
+const AUDIO_DESCRIPTION = /\s*\(seans z audiodeskrypcją\)/gi;
 const PROJECTION = /\s+(2D|3D|IMAX|4DX|ScreenX)(?=\s|$|\()/gi;
 
 /** "Avengers: Koniec gry 3D (dubbing) - wersja rozszerzona" -> title without version + "3D, dubbing". */
 export function splitTitle(raw: string): { title: string; format?: string } {
   const projection: string[] = [];
   const language: string[] = [];
-  let title = raw.replace(LANGUAGE, (_, lang: string) => {
-    language.push(lang.toLowerCase());
-    return " ";
-  });
+  let title = raw
+    .replace(LANGUAGE, (_, lang: string) => {
+      language.push(lang.toLowerCase());
+      return " ";
+    })
+    .replace(AUDIO_DESCRIPTION, () => {
+      language.push("audiodeskrypcja");
+      return " ";
+    });
   // Tokens can follow each other ("3D IMAX"), so strip until none are left.
   for (let prev = ""; prev !== title; ) {
     prev = title;
@@ -136,13 +158,20 @@ export class CoigdzieProvider implements CinemaProvider {
     const hit = this.cache.get(key);
     if (hit && nowMs - hit.at < CACHE_TTL_MS) return hit.day;
 
-    // The portal's city slugs keep Polish letters: /miasto/kraków/dzien/2026-10-06
-    const url = `${SITE}/miasto/${encodeURIComponent(city.toLowerCase())}/dzien/${date}`;
+    const offset = daysBetween(todayInWarsaw(this.now()), date);
+    // Past days and days a week or more ahead have no page.
+    if (offset < 0 || offset >= DAYS_AHEAD) return Promise.resolve({ showtimes: [], cinemas: [] });
+
+    const url = `${SITE}/miasto/${slugify(city)}/dzien/${encodeURIComponent(weekdayName(date))}`;
     const day = getText(this.fetchFn, url).then((html) => {
       const parsed = parseDayPage(html, city, date);
       // An empty page has been seen when the portal is struggling; treat it as a failure.
       if (!parsed.showtimes.length && !/class="[^"]*\bmovie\b/.test(html)) {
         throw new Error(`coigdzie: no schedule found at ${url}`);
+      }
+      // The page for another day (the portal ignores day names it does not know).
+      if (!parsed.showtimes.length && /data-time="/.test(html)) {
+        throw new Error(`coigdzie: ${url} has no showtimes on ${date}`);
       }
       return parsed;
     });

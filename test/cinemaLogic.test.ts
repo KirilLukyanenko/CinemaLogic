@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CinemaCityProvider, CoigdzieProvider, createCinemaLogic, formatFromAttributes, HeliosProvider, MultikinoProvider, splitTitle, WARSZAWA } from "../src";
-import { heliosScreenings, multikinoFilms } from "./fixtures/chains";
+import { multikinoFilms } from "./fixtures/chains";
+import { live, liveJson } from "./fixtures/live";
 import type { FetchLike } from "../src";
 import { withZoneOffset } from "../src/util";
 import { cinemasResponse, eventsByCinema } from "./fixtures/cinemaCity";
@@ -14,7 +15,7 @@ function fakeFetch(opts: { calls?: string[]; coigdzieDown?: boolean } = {}): Fet
     opts.calls?.push(url);
     if (url.startsWith("https://kino.coigdzie.pl/")) {
       if (opts.coigdzieDown) return new Response("", { status: 500 });
-      return url.endsWith("/miasto/warszawa/dzien/2026-10-06")
+      return url.endsWith("/miasto/warszawa/dzien/wtorek")
         ? new Response(coigdzieWarszawaPage, { status: 200 })
         : new Response("<html><body></body></html>", { status: 200 });
     }
@@ -76,16 +77,15 @@ describe("chain APIs", () => {
       if (url.includes("multikino.pl/api/microservice/showings/")) {
         return new Headers(init?.headers).get("Cookie") === "session=abc" ? json(multikinoFilms) : json({}, 401);
       }
-      if (url.startsWith("https://api.helios.pl/")) return json(heliosScreenings);
+      if (url === "https://api.helios.pl/api/v1/cinemas/26/screenings") return json(liveJson("helios-26-screenings.json"));
       return base(url, init);
     };
   };
   const reduta = WARSZAWA.find((v) => v.name === "Multikino Reduta")!;
-  const blueCity = WARSZAWA.find((v) => v.name === "Helios Blue City")!;
   const chains = (fetchFn: FetchLike) => [
     new CinemaCityProvider(fetchFn, NOW),
     new MultikinoProvider(fetchFn, [{ ...reduta, multikinoId: "0099" }]),
-    new HeliosProvider(fetchFn, NOW, [{ ...blueCity, heliosId: "7" }]),
+    new HeliosProvider(fetchFn, NOW),
   ];
 
   it("read Multikino with a session cookie and Helios from one schedule request", async () => {
@@ -93,11 +93,14 @@ describe("chain APIs", () => {
     const fetchFn = chainsFetch(calls);
     const l = createCinemaLogic({ providers: [new CoigdzieProvider(fetchFn, NOW)], siteProviders: chains(fetchFn) });
     const lalka = await l.getShowtimes({ city: "Warszawa", date: "2026-10-11", movie: "lalka" });
-    expect(lalka).toEqual([
-      { cinema: "Multikino Reduta", city: "Warszawa", movie: "Lalka", start: "2026-10-11T11:00:00+02:00", bookingUrl: "https://www.multikino.pl/rezerwacja-biletow/podsumowanie/0099/HO00002549/1" },
-      { cinema: "Helios Blue City", city: "Warszawa", movie: "Lalka", start: "2026-10-11T18:30:00+02:00", bookingUrl: "https://bilety.helios.pl/screen/s-1?cinemaId=c-1" },
-      { cinema: "Multikino Reduta", city: "Warszawa", movie: "Lalka", start: "2026-10-11T20:10:00+02:00", bookingUrl: "https://www.multikino.pl/rezerwacja-biletow/podsumowanie/0099/HO00002549/2" },
+    expect(lalka.map((s) => [s.cinema, s.start.slice(11, 16)])).toEqual([
+      ["Helios Blue City", "11:00"],
+      ["Multikino Reduta", "11:00"],
+      ["Helios Blue City", "14:30"],
+      ["Helios Blue City", "18:00"],
+      ["Multikino Reduta", "20:10"],
     ]);
+    expect(lalka[1]).toEqual({ cinema: "Multikino Reduta", city: "Warszawa", movie: "Lalka", start: "2026-10-11T11:00:00+02:00", bookingUrl: "https://www.multikino.pl/rezerwacja-biletow/podsumowanie/0099/HO00002549/1" });
     const toy = await l.getShowtimes({ city: "Warszawa", date: "2026-10-11", movie: "toy story" });
     expect(toy[0]).toMatchObject({ movie: "Toy Story 5", format: "dubbing", bookingUrl: "https://www.multikino.pl/filmy/toy-story-5" });
     expect(calls.filter((u) => u.startsWith("https://api.helios.pl/"))).toHaveLength(1);
@@ -174,6 +177,22 @@ describe("cinema website parsers", () => {
   });
 });
 
+describe("getMovies", () => {
+  it("groups titles that differ only in punctuation", async () => {
+    const site = (cinema: string, movie: string) => ({
+      name: cinema,
+      listCinemas: async () => [],
+      getShowtimes: async (city: string) => [{ cinema, city, movie, start: "2026-10-11T18:00:00+02:00" }],
+    });
+    const l = createCinemaLogic({
+      providers: [],
+      siteProviders: [site("Kinoteka", "The Social Reckoning: W sieci konsekwencji"), site("Cinema City Arkadia", "The Social Reckoning. W sieci konsekwencji")],
+    });
+    const movies = await l.getMovies({ city: "Warszawa", date: "2026-10-11" });
+    expect(movies.map((m) => m.showtimes.map((s) => s.cinema))).toEqual([["Cinema City Arkadia", "Kinoteka"]]);
+  });
+});
+
 describe("getCinemas", () => {
   it("lists every Warsaw cinema plus ones the portal knows that the list misses", async () => {
     const cinemas = await logic(fakeFetch()).getCinemas("Warszawa");
@@ -201,6 +220,7 @@ describe("helpers", () => {
     expect(splitTitle("Afrykanska przygoda 3D IMAX (napisy)")).toEqual({ title: "Afrykanska przygoda", format: "IMAX 3D, napisy" });
     expect(splitTitle("Resident Evil: Oselia Zla (ukr.)")).toEqual({ title: "Resident Evil: Oselia Zla", format: "ukr." });
     expect(splitTitle("Toy Story 5")).toEqual({ title: "Toy Story 5", format: undefined });
+    expect(splitTitle("Lalka (seans z audiodeskrypcją)")).toEqual({ title: "Lalka", format: "audiodeskrypcja" });
   });
 
   it("adds the Warsaw offset for summer and winter time", () => {
