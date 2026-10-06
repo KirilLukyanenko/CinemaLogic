@@ -2,7 +2,8 @@ import type { Venue } from "../types";
 
 /**
  * Every cinema in Warsaw (city limits), chains and small/arthouse venues alike.
- * Compiled October 2026 from kino.coigdzie.pl, cinema websites and city guides;
+ * Compiled October 2026 from kino.coigdzie.pl listings (January-October 2026),
+ * cinema websites and city guides;
  * open-air and one-off venues are left out. Sources name cinemas differently
  * ("Cinema City Warszawa Galeria Północna", "Kino Luna w Warszawie"), so `match`
  * lists the words that identify each one.
@@ -38,8 +39,13 @@ export const WARSZAWA: Venue[] = [
   { name: "Kino Praha", match: ["kino praha"], address: "ul. Jagiellońska 26", district: "Praga-Północ" },
   { name: "Kino Świt", match: ["kino swit"], address: "ul. Wysockiego 11", district: "Targówek" },
   { name: "Kino Kadr", match: ["kadr"], address: "ul. Rożana 22/24 (Dom Kultury Kadr)", district: "Mokotów" },
-  { name: "ADA Kino Studyjne", match: ["ada"], address: "ul. Ks. Juliana Chrościckiego 14", district: "Ursus" },
-  { name: "Dom Sztuki", match: ["dom sztuki"], address: "ul. Puszczyka 17", district: "Ursynów" },
+  { name: "ADA Kino Studyjne", match: ["ada"], address: "ul. Ks. Juliana Chrościckiego 14 (Dom Kultury Włochy)", district: "Włochy" },
+  { name: "Dom Sztuki", match: ["dom sztuki", "domu sztuki"], address: "ul. Puszczyka 17", district: "Ursynów" },
   { name: "Kino Na Boku", match: ["na boku"], address: "ul. Żegańska 1a", district: "Wawer" },
   { name: "Kinokawiarnia Stacja Falenica", match: ["falenica"], address: "ul. Patriotów 44B", district: "Wawer" },
+  { name: "Kino Głębocka 66", match: ["glebocka 66"], address: "ul. Głębocka 66", district: "Białołęka" },
+  { name: "Kinomuzeum", match: ["kinomuzeum"], district: "Śródmieście" },
+  { name: "Kino Syrena", match: ["kino syrena"], address: "Muzeum Warszawy, Rynek Starego Miasta 28-42", district: "Śródmieście" },
+  { name: "Kino Kępa", match: ["kino kepa"], address: "Prom Kultury Saska Kępa, ul. Brukselska 23", district: "Praga-Południe" },
+  { name: "Kino Służew", match: ["sluzewski dom kultury"], district: "Mokotów" },
 ];

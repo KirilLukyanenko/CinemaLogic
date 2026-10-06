@@ -7,7 +7,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "demo": "tsx scripts/demo.ts"
+    "demo": "tsx scripts/demo.ts",
+    "snapshot": "tsx scripts/snapshot.ts"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",

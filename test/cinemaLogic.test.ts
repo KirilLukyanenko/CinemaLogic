@@ -86,6 +86,42 @@ describe("fallback to Cinema City", () => {
   });
 });
 
+describe("cinema website parsers", () => {
+  const site = (showtimes: { cinema: string; movie: string; start: string }[]) => ({
+    name: "site",
+    listCinemas: async () => [],
+    getShowtimes: async (city: string) => showtimes.map((s) => ({ ...s, city })),
+  });
+
+  it("replace the portal's showtimes for their cinema and keep everything else", async () => {
+    const fetchFn = fakeFetch();
+    const l = createCinemaLogic({
+      providers: [new CoigdzieProvider(fetchFn, NOW)],
+      siteProviders: [site([{ cinema: "Kino Muranów", movie: "Lalka", start: "2026-10-06T21:00:00+02:00" }])],
+    });
+    const muranow = (await l.getShowtimes({ city: "Warszawa", date: "2026-10-06" })).filter((s) => s.cinema === "Kino Muranów");
+    expect(muranow.map((s) => s.start)).toEqual(["2026-10-06T21:00:00+02:00"]);
+    expect(await l.getShowtimes({ city: "Warszawa", date: "2026-10-06" })).toHaveLength(6);
+  });
+
+  it("a failing site parser leaves the portal's data in place", async () => {
+    const errors: string[] = [];
+    const broken = { name: "broken", listCinemas: async () => [], getShowtimes: async () => Promise.reject(new Error("layout changed")) };
+    const l = createCinemaLogic({ providers: [new CoigdzieProvider(fakeFetch(), NOW)], siteProviders: [broken], onError: (_, c) => errors.push(c.provider) });
+    expect(await l.getShowtimes({ city: "Warszawa", date: "2026-10-06" })).toHaveLength(6);
+    expect(errors).toEqual(["broken"]);
+  });
+
+  it("pairs the portal's spellings of small cinemas with the Warsaw list", async () => {
+    const names = ["U–jazdowski kino", "Kino Domu Sztuki", "KinoGram", "Kinomuzeum w Muzeum Sztuki Nowoczesnej", "Kino Kępa - Prom Kultury Saska Kępa"];
+    const l = createCinemaLogic({
+      providers: [site(names.map((cinema) => ({ cinema, movie: "Film", start: "2026-10-06T18:00:00+02:00" })))],
+    });
+    const cinemas = (await l.getShowtimes({ city: "Warszawa", date: "2026-10-06" })).map((s) => s.cinema);
+    expect(cinemas.sort()).toEqual(["Dom Sztuki", "Kino Kępa", "KinoGram", "Kinomuzeum", "U-jazdowski Kino"]);
+  });
+});
+
 describe("getCinemas", () => {
   it("lists every Warsaw cinema plus ones the portal knows that the list misses", async () => {
     const cinemas = await logic(fakeFetch()).getCinemas("Warszawa");

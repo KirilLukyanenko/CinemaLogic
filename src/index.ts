@@ -15,6 +15,11 @@ export type CinemaLogicOptions = {
    * showtimes wins; the rest are fallbacks for when it fails or comes back empty.
    */
   providers?: CinemaProvider[];
+  /**
+   * Parsers for individual cinemas' own websites. They run alongside `providers`,
+   * and for every cinema they return showtimes for, their data replaces the portal's.
+   */
+  siteProviders?: CinemaProvider[];
   /** Called when a source fails; the next source is tried. */
   onError?: (error: unknown, context: { provider: string }) => void;
 };
@@ -39,6 +44,7 @@ function findVenue(venues: Venue[], sourceName: string): Venue | undefined {
 
 export function createCinemaLogic(options: CinemaLogicOptions = {}) {
   const providers = options.providers ?? defaultProviders();
+  const siteProviders = options.siteProviders ?? [];
   const onError = options.onError ?? (() => {});
 
   /**
@@ -79,18 +85,31 @@ export function createCinemaLogic(options: CinemaLogicOptions = {}) {
     const venues = cityList(opts.city)?.venues ?? [];
     const wanted = opts.movie ? normalize(opts.movie) : undefined;
 
-    let showtimes: SourceShowtime[] = [];
+    const fromSites = Promise.all(
+      siteProviders.map((p) =>
+        p.getShowtimes(city, opts.date).catch((error: unknown) => {
+          onError(error, { provider: p.name });
+          return [];
+        }),
+      ),
+    );
+
+    let fromPortal: SourceShowtime[] = [];
     for (const provider of providers) {
       try {
-        showtimes = await provider.getShowtimes(city, opts.date);
-        if (showtimes.length) break;
+        fromPortal = await provider.getShowtimes(city, opts.date);
+        if (fromPortal.length) break;
       } catch (error) {
         onError(error, { provider: provider.name });
       }
     }
 
+    const canonical = (s: SourceShowtime) => ({ ...s, city, cinema: findVenue(venues, s.cinema)?.name ?? s.cinema });
+    const site = (await fromSites).flat().map(canonical);
+    const siteCinemas = new Set(site.map((s) => s.cinema));
+    const showtimes = [...site, ...fromPortal.map(canonical).filter((s) => !siteCinemas.has(s.cinema))];
+
     return showtimes
-      .map((s) => ({ ...s, city, cinema: findVenue(venues, s.cinema)?.name ?? s.cinema }))
       .filter((s) => !wanted || normalize(s.movie).includes(wanted))
       .sort((a, b) => Date.parse(a.start) - Date.parse(b.start) || a.cinema.localeCompare(b.cinema, "pl"));
   }

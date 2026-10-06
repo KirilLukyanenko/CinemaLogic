@@ -43,7 +43,7 @@ export type Venue = {
    * any of them (and the chain name, for chain venues) is this venue.
    */
   match: string[];
-  address: string;
+  address?: string;
   district?: string;
   url?: string;
 };

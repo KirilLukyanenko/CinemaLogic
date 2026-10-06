@@ -39,9 +39,15 @@ The portal writes versions into the title ("Avengers 3D (dubbing)"). Those marke
 
 Sources name cinemas differently ("Cinema City Warszawa Galeria Północna", "Kino Luna w Warszawie"). `src/cities/warszawa.ts` lists every Warsaw cinema with its address and district, plus the words that identify it, so every source maps onto the same names. Cinemas the portal knows but the list misses are still returned under the portal's name.
 
-On 6 October 2026 the portal had 27 Warsaw cinema entries, and all of them map onto the list. KinoGram, U-jazdowski, ADA and Dom Sztuki are on the list but not on the portal that day, so they have no showtimes yet.
+The Warsaw list has 35 cinemas. It was checked against everything the portal listed for Warsaw from January to October 2026; every regular cinema there maps onto it. Small venues often show films only a few days a week, so a cinema missing on one day usually just has no screenings that day. ADA Kino Studyjne is the one cinema the portal never lists.
 
-To add a source, implement `CinemaProvider` (`getShowtimes(city, date)`, `listCinemas(city)`) in `src/providers/` and add it to `defaultProviders()`. Check each site's terms of use first.
+### Cinema website parsers
+
+A parser for a single cinema's own site goes in `siteProviders`. It runs alongside the portal, and for every cinema it returns showtimes for, its data replaces the portal's. If it fails (for example after a site redesign), the portal's data for that cinema is used and `onError` is called.
+
+Parsers must be written against the site's real HTML. `npm run snapshot` saves the schedule pages of KinoGram, U-jazdowski, ADA and Dom Sztuki into `test/fixtures/sites/`. Add a URL with `npm run snapshot -- ada https://...`.
+
+To add a city-wide source, implement `CinemaProvider` (`getShowtimes(city, date)`, `listCinemas(city)`) in `src/providers/` and add it to `defaultProviders()`. Check each site's terms of use first.
 
 ## Use in the app
 
